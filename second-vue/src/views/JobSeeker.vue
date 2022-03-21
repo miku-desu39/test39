@@ -71,147 +71,364 @@
         </el-header>
         <!-- <el-divider class="myDivider"></el-divider> -->
 
+        <!-- 轮播图 -->
         <el-carousel :interval="4000" type="card" height="300px">
           <el-carousel-item v-for="item in imgList" :key="item.id">
             <img :src="item.idView" class="image" />
           </el-carousel-item>
         </el-carousel>
 
-        <el-tabs tab-position="left">
-          <el-tab-pane label="技术">
-            <div class="menu_box">
-               
-                <div class="menu_sub hidden">
-                    <dl>
-                        <dt>
-                            <span>后端开发</span>
-                        </dt>
-                        <dd>
-                            <a href="/searchlist?keyword=Java" class="current" >Java</a>
-                            <a href="/searchlist?keyword=C++" >C++</a>
-                            <a href="/searchlist?keyword=PHP" >PHP</a>
-                            <a href="/searchlist?keyword=数据挖掘" >数据挖掘</a>
-                            <a href="#" >搜索算法</a>
-                            <a href="#" >精准推荐</a>
-                            <a href="#" >C</a>
-                            <a href="#" >C#</a>
-                            <a href="#"  class="current">全栈工程师</a>
-                            <a href="#" >Hadoop</a>
-                            <a href="/searchlist?keyword=.Net" >.NET</a>
-                            <a href="/searchlist?keyword=Python" >Python</a>
-                            <a href="#" >Delphi</a>
-                            <a href="#" >VB</a>
-                            <a href="#" >Perl</a>
-                            <a href="#" >Ruby</a>
-                            <a href="#" class="current" >Node.js</a>
-                            <a href="#" >Go</a>
-                            <a href="#" >ASP</a>
-                            <a href="#" >Shell</a>
-                            <a href="#" >后端开发其它</a>
+        <!-- 岗位列表 -->
+        <el-tabs @tab-click="handleClick" value="技术">
+          <el-tab-pane name="技术">
+            <span slot="label" style="font-size: 17px">技术</span>
+            <dl>
+              <dt>
+                <span>后端开发</span>
+              </dt>
+              <dd>
+                <span
+                  v-for="item in meta[0]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>移动开发</dt>
+              <dd>
+                <span
+                  v-for="item in meta[1]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>前端开发</dt>
+              <dd>
+                <span
+                  v-for="item in meta[2]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>人工智能</dt>
+              <dd>
+                <span
+                  v-for="item in meta[3]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>测试</dt>
+              <dd>
+                <span
+                  v-for="item in meta[4]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>运维</dt>
+              <dd>
+                <span
+                  v-for="item in meta[5]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+          </el-tab-pane>
+          <el-tab-pane name="产品">
+            <span slot="label" style="font-size: 17px">产品</span>
+            <dl>
+              <dt>
+                <span>后端开发</span>
+              </dt>
+              <dd>
+                <span
+                  v-for="item in meta[0]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>移动开发</dt>
+              <dd>
+                <span
+                  v-for="item in meta[1]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>前端开发</dt>
+              <dd>
+                <span
+                  v-for="item in meta[2]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>人工智能</dt>
+              <dd>
+                <span
+                  v-for="item in meta[3]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>测试</dt>
+              <dd>
+                <span
+                  v-for="item in meta[4]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>运维</dt>
+              <dd>
+                <span
+                  v-for="item in meta[5]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+          </el-tab-pane>
+          <el-tab-pane name="设计">
+            <span slot="label" style="font-size: 17px">设计</span>
+          </el-tab-pane>
+          <el-tab-pane name="运营">
+            <span slot="label" style="font-size: 17px">运营</span>
+          </el-tab-pane>
+          <el-tab-pane name="市场与销售">
+            <span slot="label" style="font-size: 17px"
+              >市场与销售</span
+            ></el-tab-pane
+          >
+          <el-tab-pane name="职能">
+            <span slot="label" style="font-size: 17px">职能</span>
+            <dl>
+              <dt>
+                <span>后端开发</span>
+              </dt>
+              <dd>
+                <span
+                  v-for="item in meta[0]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>移动开发</dt>
+              <dd>
+                <span
+                  v-for="item in meta[1]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>前端开发</dt>
+              <dd>
+                <span
+                  v-for="item in meta[2]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>人工智能</dt>
+              <dd>
+                <span
+                  v-for="item in meta[3]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>测试</dt>
+              <dd>
+                <span
+                  v-for="item in meta[4]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>运维</dt>
+              <dd>
+                <span
+                  v-for="item in meta[5]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+          </el-tab-pane>
+          <el-tab-pane name="金融">
+            <span slot="label" style="font-size: 17px">金融</span></el-tab-pane
+          >
+        </el-tabs>
 
-                        </dd>
-
-                    </dl>
-                    <dl>
-                        <dt>
-                            移动开发
-                        </dt>
-                        <dd>
-                            <a href="#" class="current" >HTML5</a>
-                            <a href="#"  class="current">Android</a>
-                            <a href="#" >iOS</a>
-                            <a href="#" >WP</a>
-                            <a href="#" >移动开发其它</a>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            前端开发
-                        </dt>
-                        <dd>
-                            <a href="#" class="current">web前端</a>
-                            <a href="#" >Flash</a>
-                            <a href="#" class="current">JavaScript</a>
-                            <a href="#" >U3D</a>
-                            <a href="#" >Shell</a>
-                            <a href="#" >COCOS2D-X</a>
-                            <a href="#" >前端开发其它</a>
-
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            人工智能
-                        </dt>
-                        <dd>
-                            <a href="#" class="current">深度学习</a>
-                            <a href="#" class="current">机器学习</a>
-                            <a href="#" >图像处理</a>
-                            <a href="#" >图像识别</a>
-                            <a href="#" >语音识别</a>
-                            <a href="#" >机器视觉</a>
-                            <a href="#" >算法工程师</a>
-                            <a href="#" >自然语言处理</a>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            测试
-                        </dt>
-                        <dd>
-                            <a href="#" >测试工程师</a>
-                            <a href="#" >自动化测试</a>
-                            <a href="#" >功能测试</a>
-                            <a href="#" >性能测试</a>
-                            <a href="#" >测试开发</a>
-                            <a href="#" >游戏测试</a>
-                            <a href="#" >白盒测试</a>
-                            <a href="#" >灰盒测试</a>
-                            <a href="#" >黑盒测试</a>
-                            <a href="#" >手机测试</a>
-                            <a href="#" >硬件测试</a>
-                            <a href="#" >测试经理</a>
-
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            运维
-                        </dt>
-                        <dd>
-                            <a href="#" >运维工程师</a>
-                            <a href="#" >网络工程师</a>
-                            <a href="#" >系统工程师</a>
-                            <a href="#" >IT支持</a>
-                            <a href="#" >CDN</a>
-                            <a href="#" >系统管理员</a>
-                            <a href="#" >网络安全</a>
-                            <a href="#" >系统安全</a>
-                            <a href="#" >运维经理</a>
-                            <a href="#" >运维其他</a>
-
-                        </dd>
-                    </dl>
-                </div>
+        <div class="card_wrap">
+          <el-card
+            class="box-card"
+            shadow="always"
+            v-for="job in jobs"
+            :key="job"
+            style="width: 370px"
+          >
+            <div class="myHeader">
+              <div class="job-name col-md-8">
+                <a>{{ job.title }}</a>
+              </div>
+              <div class="job-salary col-md-4 text-right">10k-20k</div>
             </div>
 
-          </el-tab-pane>
-          <el-tab-pane label="配置管理">配置管理</el-tab-pane>
-          <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-          <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
-        </el-tabs>
-        <!-- <div>
-          <el-tabs style="height: 200px;" type="border-card">
-          <el-tab-pane label="用户管理">用户管理</el-tab-pane>
-          <el-tab-pane label="配置管理">配置管理</el-tab-pane>
-          <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-          <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
-        </el-tabs>
+            <div class="line-3 job-tag-content row">
+              <ul class="">
+                <li class="col-md-3 job-tag">数据分析</li>
+                <li class="col-md-3 job-tag">全栈开发</li>
+              </ul>
+            </div>
+            <div class="company">
+              <img
+                style="width: 40px; height: 40px"
+                class="img-rounded"
+                src="../img/img1.jpg"
+              />
+              <div class="company-right">
+                <div class="row company-name">
+                  <a href="">{{ job.companyName }}</a>
+                </div>
+                <div class="row company-description">
+                  大型互联网公司/上市公司
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </div>
 
-        </div> -->
+        <div class="job-list-container container">
+          <div class="jot-tab-content row">
+            <div class="line">
+              <ul class="col-md-4 no-margin-bottom">
+                <li class="nav_item col-md-4 active">
+                  <a class="" href="#">热门推荐</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="job-summary-container container">
+            <div class="content" id="job-content">
+              <div
+                class="col-lg-4 summary-border"
+                id="job-box"
+                v-for="job in jobs"
+                :key="job"
+              >
+                <div class="job-summary">
+                  <div class="line-1 row">
+                    <div class="job-name col-md-8">
+                      <a>{{ job.title }}</a
+                      ><span class="create-item"
+                        >数日前发布<span
+                          class="lianxi iconfont icon-lianxi"
+                        ></span>
+                      </span>
+                    </div>
+                    <div class="job-salary col-md-4 text-right">10k-20k</div>
+                  </div>
+                  <div class="line-2 job-require">
+                    <!--{{job.requirement}}-->
+                  </div>
+                  <div class="line-3 job-tag-content row">
+                    <ul class="">
+                      <li class="col-md-3 job-tag">数据分析</li>
+                      <li class="col-md-3 job-tag">全栈开发</li>
+                    </ul>
+                  </div>
+                  <div class="company">
+                    <img
+                      style="width: 40px; height: 40px"
+                      class="img-rounded"
+                      src="../img/img1.jpg"
+                    />
+                    <div class="company-right">
+                      <div class="row company-name">
+                        <a href="">{{ job.companyName }}</a>
+                      </div>
+                      <div class="row company-description">
+                        大型互联网公司/上市公司
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <!-- 岗位展示块 -->
         <el-main>
-          <el-card v-for="item in this.pageData" class="box-card">
+          <el-card v-for="item in this.pageData" class="box-card" :key="item">
             <el-header class="myHeader">
               <strong
                 ><span style="font-size: 30px; color: black">{{
@@ -323,6 +540,23 @@ export default {
         { id: 2, idView: require("@/img/poster3.png") },
       ],
 
+      meta: [],
+
+      jobs: [
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+      ],
+
       pageDataType: "normal",
 
       input: "",
@@ -352,9 +586,100 @@ export default {
 
   created() {
     this.getJobList();
+    this.initJoblist();
   },
 
   methods: {
+    initJoblist() {
+      this.meta = [
+        [
+          "Java",
+          "C++",
+          "PHP",
+          "数据挖掘",
+          "搜索算法",
+          "精准推荐",
+          "C",
+          "C#",
+          "全栈工程师",
+          "Hadoop",
+          ".NET",
+          "Python",
+          "Delphi",
+          "VB",
+          "Perl",
+          "Ruby",
+          "Node.js",
+          "Go",
+          "ASP",
+          "Shell",
+          "后端开发其它",
+        ],
+        ["HTML5", "Android", "iOS", "WP", "移动开发其它"],
+        [
+          "web前端",
+          "Flash",
+          "JavaScript",
+          "U3D",
+          "Shell",
+          "COCOS2D-X",
+          "前端开发其它",
+        ],
+        [
+          "深度学习",
+          "机器学习",
+          "图像处理",
+          "图像识别",
+          "语音识别",
+          "机器视觉",
+          "算法工程师",
+          "自然语言处理",
+        ],
+        [
+          "测试工程师",
+          "自动化测试",
+          "功能测试",
+          "性能测试",
+          "测试开发",
+          "游戏测试",
+          "白盒测试",
+          "灰盒测试",
+          "黑盒测试",
+          "手机测试",
+          "硬件测试",
+          "测试经理",
+        ],
+        [
+          "运维工程师",
+          "网络工程师",
+          "系统工程师",
+          "IT支持",
+          "CDN",
+          "系统管理员",
+          "网络安全",
+          "系统安全",
+          "运维经理",
+          "运维其他",
+        ],
+      ];
+    },
+
+    searchJob(item) {
+      this.$message.success(item);
+    },
+
+    handleClick(tab, event) {
+      this.$message.success(tab.name);
+
+      if (tab.name == "技术") {
+        this.meta = [
+          [1, 2, 3, 4, "666"],
+          [1, 2, 3, 4, 5],
+          [1, 2, 3, 4, 5],
+        ];
+      }
+    },
+
     updateResume() {
       this.$axios
         .post("/Resume/updateResume?email=" + this.email, this.resumeForm)
@@ -450,6 +775,13 @@ export default {
 </script>
 
 <style scoped>
+
+.card_wrap {
+  width: 98%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 .courseDiv {
   height: 273px;
   display: inline-block;
@@ -549,5 +881,152 @@ export default {
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
+}
+
+.el-tab-pane dt {
+  padding: 10px 0;
+}
+
+.el-tab-pane dd {
+  color: rgb(57 197 187 / 52%);
+}
+
+.el-tab-pane dd span {
+  margin: 5px;
+}
+
+.jot-tab-content .nav_item {
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  display: block;
+  padding: 10px 18px;
+  color: #999999;
+  font-size: 16px;
+}
+
+.jot-tab-content .nav_item.active,
+.jot-tab-content .nav_item:hover {
+  color: #6aa2e4;
+  border-bottom: 2px solid #6aa2e4;
+}
+.jot-tab-content .line {
+  width: 100%;
+  border-bottom: solid 1px #e6e6e6;
+  margin-right: 40px;
+}
+.no-margin-bottom {
+  margin-bottom: 0 !important;
+  margin-left: -15px !important;
+}
+.job-summary-container .content {
+  padding-top: 15px;
+}
+.job-list-container {
+}
+.job-summary-container {
+  margin-left: -42px;
+}
+.job-summary-container .col-lg-4 {
+  padding: 0 10px !important;
+}
+.job-summary {
+  box-sizing: border-box;
+  position: relative;
+
+  height: 180px;
+  margin: 16px 0 0 0;
+  padding: 12px 12px 0;
+  border: solid 1px #eaeeed;
+}
+.summary-border {
+}
+.job-summary:hover {
+  box-shadow: 0 0 10px 0 rgba(56, 81, 76, 0.12);
+}
+
+.line-1 {
+  color: #333;
+}
+.job-name {
+  font-size: 16px;
+  display: inline-block;
+  padding-left: 15px;
+  margin: 0;
+  color: #333;
+}
+.job-name a:hover {
+  cursor: pointer;
+  color: #6aa2e4 !important;
+}
+
+.job-salary {
+  font-size: 16px;
+  color: #fa6041;
+  padding-left: 0 !important;
+}
+.create-item {
+  color: #999;
+  font-size: 14px;
+}
+.lianxi {
+  margin-left: 5px;
+  color: #6aa2e4;
+  cursor: pointer;
+}
+.job-require {
+  padding-top: 6px;
+
+  display: inline-block;
+
+  margin: 0;
+  color: #999;
+}
+.job-tag-content {
+  padding-top: 6px;
+  font-size: 10px;
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  margin-left: -43px;
+  color: #777;
+}
+.job-tag {
+  display: inline-block;
+  width: 61px;
+  height: 26px;
+  padding: 0 5px;
+  font-size: 12px;
+  line-height: 26px;
+  color: #999;
+  border: 1px solid #f0f0f0;
+  border-radius: 3px;
+  text-align: center;
+  margin-left: 6px;
+}
+.company {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed #e0e0e0;
+}
+.company img {
+  display: inline-block;
+}
+
+.company .company-right {
+  margin-left: 54px;
+  position: absolute;
+  display: inline-block;
+}
+.company .company-right .company-name a {
+  font-size: 14px;
+  color: #555555;
+}
+.company .company-right .company-name a:hover {
+  color: #6aa2e4;
+}
+.company .company-right .company-description {
+  font-size: 12px;
+  color: #999999;
 }
 </style>
