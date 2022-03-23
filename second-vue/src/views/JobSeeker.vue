@@ -79,7 +79,12 @@
         </el-carousel>
 
         <!-- 岗位列表 -->
-        <el-tabs @tab-click="handleClick" value="技术">
+        <el-tabs
+          @tab-click="handleClick"
+          value="技术"
+          type="border-card"
+          style="height: 560px"
+        >
           <el-tab-pane name="技术">
             <span slot="label" style="font-size: 17px">技术</span>
             <dl>
@@ -160,12 +165,10 @@
           <el-tab-pane name="产品">
             <span slot="label" style="font-size: 17px">产品</span>
             <dl>
-              <dt>
-                <span>后端开发</span>
-              </dt>
+              <dt>产品经理</dt>
               <dd>
                 <span
-                  v-for="item in meta[0]"
+                  v-for="item in meta1[0]"
                   :key="item"
                   @click="searchJob(item)"
                 >
@@ -174,58 +177,10 @@
               </dd>
             </dl>
             <dl>
-              <dt>移动开发</dt>
+              <dt>产品设计师</dt>
               <dd>
                 <span
-                  v-for="item in meta[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>前端开发</dt>
-              <dd>
-                <span
-                  v-for="item in meta[2]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>人工智能</dt>
-              <dd>
-                <span
-                  v-for="item in meta[3]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>测试</dt>
-              <dd>
-                <span
-                  v-for="item in meta[4]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>运维</dt>
-              <dd>
-                <span
-                  v-for="item in meta[5]"
+                  v-for="item in meta1[1]"
                   :key="item"
                   @click="searchJob(item)"
                 >
@@ -236,24 +191,152 @@
           </el-tab-pane>
           <el-tab-pane name="设计">
             <span slot="label" style="font-size: 17px">设计</span>
+            <dl>
+              <dt>错觉设计</dt>
+              <dd>
+                <span
+                  v-for="item in meta2[0]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>交互设计</dt>
+              <dd>
+                <span
+                  v-for="item in meta2[1]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>用户研究</dt>
+              <dd>
+                <span
+                  v-for="item in meta2[2]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
           </el-tab-pane>
           <el-tab-pane name="运营">
             <span slot="label" style="font-size: 17px">运营</span>
+            <dl>
+              <dt>运营</dt>
+              <dd>
+                <span
+                  v-for="item in meta3[0]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>编辑</dt>
+              <dd>
+                <span
+                  v-for="item in meta3[1]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>客服</dt>
+              <dd>
+                <span
+                  v-for="item in meta3[2]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
           </el-tab-pane>
           <el-tab-pane name="市场与销售">
-            <span slot="label" style="font-size: 17px"
-              >市场与销售</span
-            ></el-tab-pane
-          >
+            <span slot="label" style="font-size: 17px">市场与销售</span>
+            <dl>
+              <dt>市场/营销</dt>
+              <dd>
+                <span
+                  v-for="item in meta4[0]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>公关</dt>
+              <dd>
+                <span
+                  v-for="item in meta4[1]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>销售</dt>
+              <dd>
+                <span
+                  v-for="item in meta4[2]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>供应链</dt>
+              <dd>
+                <span
+                  v-for="item in meta4[3]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>采购</dt>
+              <dd>
+                <span
+                  v-for="item in meta4[4]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+          </el-tab-pane>
           <el-tab-pane name="职能">
             <span slot="label" style="font-size: 17px">职能</span>
             <dl>
-              <dt>
-                <span>后端开发</span>
-              </dt>
+              <dt>人力资源</dt>
               <dd>
                 <span
-                  v-for="item in meta[0]"
+                  v-for="item in meta5[0]"
                   :key="item"
                   @click="searchJob(item)"
                 >
@@ -262,10 +345,10 @@
               </dd>
             </dl>
             <dl>
-              <dt>移动开发</dt>
+              <dt>行政</dt>
               <dd>
                 <span
-                  v-for="item in meta[1]"
+                  v-for="item in meta5[1]"
                   :key="item"
                   @click="searchJob(item)"
                 >
@@ -274,10 +357,10 @@
               </dd>
             </dl>
             <dl>
-              <dt>前端开发</dt>
+              <dt>财务</dt>
               <dd>
                 <span
-                  v-for="item in meta[2]"
+                  v-for="item in meta5[2]"
                   :key="item"
                   @click="searchJob(item)"
                 >
@@ -286,34 +369,10 @@
               </dd>
             </dl>
             <dl>
-              <dt>人工智能</dt>
+              <dt>法务</dt>
               <dd>
                 <span
-                  v-for="item in meta[3]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>测试</dt>
-              <dd>
-                <span
-                  v-for="item in meta[4]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>运维</dt>
-              <dd>
-                <span
-                  v-for="item in meta[5]"
+                  v-for="item in meta5[3]"
                   :key="item"
                   @click="searchJob(item)"
                 >
@@ -323,9 +382,47 @@
             </dl>
           </el-tab-pane>
           <el-tab-pane name="金融">
-            <span slot="label" style="font-size: 17px">金融</span></el-tab-pane
-          >
+            <span slot="label" style="font-size: 17px">金融</span>
+            <dl>
+              <dt>投融资</dt>
+              <dd>
+                <span
+                  v-for="item in meta6[0]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>风控</dt>
+              <dd>
+                <span
+                  v-for="item in meta6[1]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>审计税务</dt>
+              <dd>
+                <span
+                  v-for="item in meta6[2]"
+                  :key="item"
+                  @click="searchJob(item)"
+                >
+                  {{ item }}
+                </span>
+              </dd>
+            </dl>
+          </el-tab-pane>
         </el-tabs>
+
+        <el-divider></el-divider>
 
         <div class="card_wrap">
           <el-card
@@ -336,16 +433,17 @@
             style="width: 370px"
           >
             <div class="myHeader">
-              <div class="job-name col-md-8">
+              <div class="job-name">
                 <a>{{ job.title }}</a>
               </div>
-              <div class="job-salary col-md-4 text-right">10k-20k</div>
+              <div class="job-salary">10k-20k</div>
             </div>
 
-            <div class="line-3 job-tag-content row">
+            <div class="job-tag-content">
               <ul class="">
-                <li class="col-md-3 job-tag">数据分析</li>
-                <li class="col-md-3 job-tag">全栈开发</li>
+                <li class="job-tag">数据分析</li>
+                <li class="job-tag">全栈开发</li>
+                <li class="job-tag">独立开发</li>
               </ul>
             </div>
             <div class="company">
@@ -355,75 +453,13 @@
                 src="../img/img1.jpg"
               />
               <div class="company-right">
-                <div class="row company-name">
+                <div class="company-name">
                   <a href="">{{ job.companyName }}</a>
                 </div>
-                <div class="row company-description">
-                  大型互联网公司/上市公司
-                </div>
+                <div class="company-description">大型互联网公司/上市公司</div>
               </div>
             </div>
           </el-card>
-        </div>
-
-        <div class="job-list-container container">
-          <div class="jot-tab-content row">
-            <div class="line">
-              <ul class="col-md-4 no-margin-bottom">
-                <li class="nav_item col-md-4 active">
-                  <a class="" href="#">热门推荐</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="job-summary-container container">
-            <div class="content" id="job-content">
-              <div
-                class="col-lg-4 summary-border"
-                id="job-box"
-                v-for="job in jobs"
-                :key="job"
-              >
-                <div class="job-summary">
-                  <div class="line-1 row">
-                    <div class="job-name col-md-8">
-                      <a>{{ job.title }}</a
-                      ><span class="create-item"
-                        >数日前发布<span
-                          class="lianxi iconfont icon-lianxi"
-                        ></span>
-                      </span>
-                    </div>
-                    <div class="job-salary col-md-4 text-right">10k-20k</div>
-                  </div>
-                  <div class="line-2 job-require">
-                    <!--{{job.requirement}}-->
-                  </div>
-                  <div class="line-3 job-tag-content row">
-                    <ul class="">
-                      <li class="col-md-3 job-tag">数据分析</li>
-                      <li class="col-md-3 job-tag">全栈开发</li>
-                    </ul>
-                  </div>
-                  <div class="company">
-                    <img
-                      style="width: 40px; height: 40px"
-                      class="img-rounded"
-                      src="../img/img1.jpg"
-                    />
-                    <div class="company-right">
-                      <div class="row company-name">
-                        <a href="">{{ job.companyName }}</a>
-                      </div>
-                      <div class="row company-description">
-                        大型互联网公司/上市公司
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- 岗位展示块 -->
@@ -540,58 +576,7 @@ export default {
         { id: 2, idView: require("@/img/poster3.png") },
       ],
 
-      meta: [],
-
-      jobs: [
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-      ],
-
-      pageDataType: "normal",
-
-      input: "",
-
-      currentPage1: 1,
-
-      totalPage: 10,
-
-      pageData: [],
-
-      email: window.sessionStorage.getItem("email"),
-
-      dialogVisible: false,
-
-      resumeForm: {
-        realName: "",
-        phoneNumber: "",
-        sex: "",
-        education: "",
-        school: "",
-        address: "",
-        intentionJob: "",
-        introduce: "",
-      },
-    };
-  },
-
-  created() {
-    this.getJobList();
-    this.initJoblist();
-  },
-
-  methods: {
-    initJoblist() {
-      this.meta = [
+      meta: [
         [
           "Java",
           "C++",
@@ -661,9 +646,179 @@ export default {
           "运维经理",
           "运维其他",
         ],
-      ];
-    },
+      ],
 
+      meta1: [
+        [
+          "产品经理",
+          "网页产品经理",
+          "移动产品经理",
+          "产品助理",
+          "数据产品经理",
+          "电商产品经理",
+          "游戏策划",
+          "产品实习生",
+        ],
+        ["网页产品设计师", "无线产品设计师"],
+      ],
+
+      meta2: [
+        [
+          "错觉设计师",
+          "网页设计师",
+          "Flash设计师",
+          "APP设计师",
+          "UI设计师",
+          "平面设计师",
+          "美术设计师",
+          "广告设计师",
+          "多媒体设计师",
+          "原画师",
+          "游戏特效",
+          "游戏界面设计师",
+          "游戏场景",
+          "游戏角色",
+          "游戏动作",
+        ],
+        ["交互设计师", "无线交互设计师", "网页交互设计师", "硬件交互设计师"],
+        ["数据分析师", "用户研究员", "游戏数值策划"],
+      ],
+
+      meta3: [
+        [
+          "用户运营",
+          "产品运营",
+          "数据运营",
+          "内容运营",
+          "活动运营",
+          "商家运营",
+          "品类运营",
+          "游戏运营",
+          "网络推广",
+          "运营专员",
+          "网店运营",
+          "新媒体运营",
+          "海外运营",
+          "运营经理",
+        ],
+        ["主编辑", "副主编", "内容编辑", "文案编辑", "记者"],
+        ["售前咨询", "售后咨询", "淘宝客服", "客服经理"],
+      ],
+
+      meta4: [
+        [
+          "市场营销",
+          "市场策划",
+          "市场顾问",
+          "市场推广",
+          "SEO",
+          "SEM",
+          "商务渠道",
+          "商业数据分析",
+          "活动策划",
+          "网络营销",
+          "海外市场",
+          "政府关系",
+        ],
+        ["媒介经理", "广告协调", "品牌公关"],
+        [
+          "销售专员",
+          "销售经理",
+          "客户代表",
+          "大客户代表",
+          "BD经理",
+          "商务渠道",
+          "渠道销售",
+          "代理商销售",
+          "销售助理",
+          "电话销售",
+          "销售顾问",
+          "商品经理",
+        ],
+        ["物流", "仓储"],
+        ["采购专员", "采购经理", "商品经理"],
+      ],
+
+      meta5: [
+        [
+          "人力资源",
+          "招聘",
+          "HRBP",
+          "人事",
+          "培训经理",
+          "薪资福利经理",
+          "绩效考核经理",
+          "员工关系",
+        ],
+        ["助理", "前台", "行政", "总助", "文秘"],
+        ["会计", "出纳", "财务", "结算", "税务", "审计", "风控"],
+        ["专刊", "法务", "律师"],
+      ],
+
+      meta6: [
+        [
+          "投资经理",
+          "分析师",
+          "投资助理",
+          "融资",
+          "并购",
+          "行业研究",
+          "投资者关系",
+          "资产管理",
+          "理财顾问",
+          "交易员",
+        ],
+        ["风控", "资信评估", "合规稽查", "律师"],
+        ["审计", "法务", "会计", "清算"],
+      ],
+
+      jobs: [
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+      ],
+
+      pageDataType: "normal",
+
+      input: "",
+
+      currentPage1: 1,
+
+      totalPage: 10,
+
+      pageData: [],
+
+      email: window.sessionStorage.getItem("email"),
+
+      dialogVisible: false,
+
+      resumeForm: {
+        realName: "",
+        phoneNumber: "",
+        sex: "",
+        education: "",
+        school: "",
+        address: "",
+        intentionJob: "",
+        introduce: "",
+      },
+    };
+  },
+
+  created() {
+    this.getJobList();
+  },
+
+  methods: {
     searchJob(item) {
       this.$message.success(item);
     },
@@ -672,11 +827,6 @@ export default {
       this.$message.success(tab.name);
 
       if (tab.name == "技术") {
-        this.meta = [
-          [1, 2, 3, 4, "666"],
-          [1, 2, 3, 4, 5],
-          [1, 2, 3, 4, 5],
-        ];
       }
     },
 
@@ -775,6 +925,16 @@ export default {
 </script>
 
 <style scoped>
+dd > span {
+  color: black;
+  font-size: 14px;
+  margin-left: 5px;
+}
+dd > span:hover {
+  font-size: 14px;
+  color: #39c5bb;
+  cursor: pointer;
+}
 
 .card_wrap {
   width: 98%;
@@ -867,87 +1027,6 @@ export default {
   border-radius: 0px;
 }
 
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-
-.el-tab-pane dt {
-  padding: 10px 0;
-}
-
-.el-tab-pane dd {
-  color: rgb(57 197 187 / 52%);
-}
-
-.el-tab-pane dd span {
-  margin: 5px;
-}
-
-.jot-tab-content .nav_item {
-  text-decoration: none;
-  cursor: pointer;
-  position: relative;
-  display: block;
-  padding: 10px 18px;
-  color: #999999;
-  font-size: 16px;
-}
-
-.jot-tab-content .nav_item.active,
-.jot-tab-content .nav_item:hover {
-  color: #6aa2e4;
-  border-bottom: 2px solid #6aa2e4;
-}
-.jot-tab-content .line {
-  width: 100%;
-  border-bottom: solid 1px #e6e6e6;
-  margin-right: 40px;
-}
-.no-margin-bottom {
-  margin-bottom: 0 !important;
-  margin-left: -15px !important;
-}
-.job-summary-container .content {
-  padding-top: 15px;
-}
-.job-list-container {
-}
-.job-summary-container {
-  margin-left: -42px;
-}
-.job-summary-container .col-lg-4 {
-  padding: 0 10px !important;
-}
-.job-summary {
-  box-sizing: border-box;
-  position: relative;
-
-  height: 180px;
-  margin: 16px 0 0 0;
-  padding: 12px 12px 0;
-  border: solid 1px #eaeeed;
-}
-.summary-border {
-}
-.job-summary:hover {
-  box-shadow: 0 0 10px 0 rgba(56, 81, 76, 0.12);
-}
-
-.line-1 {
-  color: #333;
-}
 .job-name {
   font-size: 16px;
   display: inline-block;
@@ -965,23 +1044,7 @@ export default {
   color: #fa6041;
   padding-left: 0 !important;
 }
-.create-item {
-  color: #999;
-  font-size: 14px;
-}
-.lianxi {
-  margin-left: 5px;
-  color: #6aa2e4;
-  cursor: pointer;
-}
-.job-require {
-  padding-top: 6px;
 
-  display: inline-block;
-
-  margin: 0;
-  color: #999;
-}
 .job-tag-content {
   padding-top: 6px;
   font-size: 10px;
