@@ -1,24 +1,28 @@
 <template>
-  <el-container style="padding-left: 400px; padding-right: 400px">
+  <el-container style="padding-left: 400px; padding-right: 400px; background-color:rgb(244,245,245)">
     <el-header class="myHeader">
       <div class="left-bar">
         <img
-          src="../img/logo_transparent.png"
+          src="../img/easy_logo.png"
           alt=""
-          width="72px"
+          width="128px"
           height="60px"
         />
         <el-menu
-          :default-active="2"
+          default-active="1"
           class="el-menu-demo"
           mode="horizontal"
-          @select="handleSelect"
+          router
           text-color="#39c5bb"
           active-text-color="#ffd04b"
         >
-          <el-menu-item index="2">职位推荐</el-menu-item>
-          <el-menu-item index="3">校园招聘</el-menu-item>
-          <el-menu-item index="4">社会招聘</el-menu-item>
+          <el-menu-item index="1" route="/JobSeekerHome"
+            >职位推荐</el-menu-item
+          >
+          <el-menu-item index="2" route="/JobSeekerJobList"
+            >校园招聘</el-menu-item
+          >
+          <el-menu-item index="4" route="/PersonalCenter">社会招聘</el-menu-item>
           <el-menu-item index="5">公司推荐</el-menu-item>
           <el-menu-item index="6">笔试面经</el-menu-item>
         </el-menu>
@@ -37,487 +41,9 @@
 
     <!-- <el-divider class="myDivider"></el-divider> -->
 
-    <el-main style="padding-top: 0px">
-      <el-container>
-        <el-header class="myHeader2">
-          <!-- <span>职位推荐</span> -->
+    <router-view></router-view>
 
-          <!-- <el-input
-            placeholder="请输入岗位"
-            v-model="input"
-            style="width: 30%; border: 2px solid #39c5bb"
-          >
-            <el-button slot="append" style="background: #39c5bb"
-              >搜索岗位</el-button
-            >
-          </el-input> -->
-
-          <div class="myHeader2">
-            <input
-              v-model="input"
-              placeholder="请输入职位"
-              class="search-input"
-            />
-            <el-button type="primary" class="search-button">搜索岗位</el-button>
-          </div>
-
-          <!-- <div style="display: flex">
-            <div><el-input v-model="input" placeholder="请输入职位" size="medium"></el-input></div>
-            <el-button type="primary" @click="getTargetJobList" style="margin-left: 10px">搜索职位</el-button>
-            <el-button type="success" @click="resetPage">重置</el-button>
-          </div> -->
-
-          <!-- <el-button type="primary" @click="dialogVisible = true">修改简历</el-button> -->
-        </el-header>
-        <!-- <el-divider class="myDivider"></el-divider> -->
-
-        <!-- 轮播图 -->
-        <el-carousel :interval="4000" type="card" height="300px">
-          <el-carousel-item v-for="item in imgList" :key="item.id">
-            <img :src="item.idView" class="image" />
-          </el-carousel-item>
-        </el-carousel>
-
-        <!-- 岗位列表 -->
-        <el-tabs
-          @tab-click="handleClick"
-          value="技术"
-          type="border-card"
-          style="height: 560px"
-        >
-          <el-tab-pane name="技术">
-            <span slot="label" style="font-size: 17px">技术</span>
-            <dl>
-              <dt>
-                <span>后端开发</span>
-              </dt>
-              <dd>
-                <span
-                  v-for="item in meta[0]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>移动开发</dt>
-              <dd>
-                <span
-                  v-for="item in meta[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>前端开发</dt>
-              <dd>
-                <span
-                  v-for="item in meta[2]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>人工智能</dt>
-              <dd>
-                <span
-                  v-for="item in meta[3]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>测试</dt>
-              <dd>
-                <span
-                  v-for="item in meta[4]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>运维</dt>
-              <dd>
-                <span
-                  v-for="item in meta[5]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-          </el-tab-pane>
-          <el-tab-pane name="产品">
-            <span slot="label" style="font-size: 17px">产品</span>
-            <dl>
-              <dt>产品经理</dt>
-              <dd>
-                <span
-                  v-for="item in meta1[0]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>产品设计师</dt>
-              <dd>
-                <span
-                  v-for="item in meta1[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-          </el-tab-pane>
-          <el-tab-pane name="设计">
-            <span slot="label" style="font-size: 17px">设计</span>
-            <dl>
-              <dt>错觉设计</dt>
-              <dd>
-                <span
-                  v-for="item in meta2[0]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>交互设计</dt>
-              <dd>
-                <span
-                  v-for="item in meta2[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>用户研究</dt>
-              <dd>
-                <span
-                  v-for="item in meta2[2]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-          </el-tab-pane>
-          <el-tab-pane name="运营">
-            <span slot="label" style="font-size: 17px">运营</span>
-            <dl>
-              <dt>运营</dt>
-              <dd>
-                <span
-                  v-for="item in meta3[0]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>编辑</dt>
-              <dd>
-                <span
-                  v-for="item in meta3[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>客服</dt>
-              <dd>
-                <span
-                  v-for="item in meta3[2]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-          </el-tab-pane>
-          <el-tab-pane name="市场与销售">
-            <span slot="label" style="font-size: 17px">市场与销售</span>
-            <dl>
-              <dt>市场/营销</dt>
-              <dd>
-                <span
-                  v-for="item in meta4[0]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>公关</dt>
-              <dd>
-                <span
-                  v-for="item in meta4[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>销售</dt>
-              <dd>
-                <span
-                  v-for="item in meta4[2]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>供应链</dt>
-              <dd>
-                <span
-                  v-for="item in meta4[3]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>采购</dt>
-              <dd>
-                <span
-                  v-for="item in meta4[4]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-          </el-tab-pane>
-          <el-tab-pane name="职能">
-            <span slot="label" style="font-size: 17px">职能</span>
-            <dl>
-              <dt>人力资源</dt>
-              <dd>
-                <span
-                  v-for="item in meta5[0]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>行政</dt>
-              <dd>
-                <span
-                  v-for="item in meta5[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>财务</dt>
-              <dd>
-                <span
-                  v-for="item in meta5[2]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>法务</dt>
-              <dd>
-                <span
-                  v-for="item in meta5[3]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-          </el-tab-pane>
-          <el-tab-pane name="金融">
-            <span slot="label" style="font-size: 17px">金融</span>
-            <dl>
-              <dt>投融资</dt>
-              <dd>
-                <span
-                  v-for="item in meta6[0]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>风控</dt>
-              <dd>
-                <span
-                  v-for="item in meta6[1]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt>审计税务</dt>
-              <dd>
-                <span
-                  v-for="item in meta6[2]"
-                  :key="item"
-                  @click="searchJob(item)"
-                >
-                  {{ item }}
-                </span>
-              </dd>
-            </dl>
-          </el-tab-pane>
-        </el-tabs>
-
-        <el-divider></el-divider>
-
-        <div class="card_wrap">
-          <el-card
-            class="box-card"
-            shadow="always"
-            v-for="job in jobs"
-            :key="job"
-            style="width: 370px"
-          >
-            <div class="myHeader">
-              <div class="job-name">
-                <a>{{ job.title }}</a>
-              </div>
-              <div class="job-salary">10k-20k</div>
-            </div>
-
-            <div class="job-tag-content">
-              <ul class="">
-                <li class="job-tag">数据分析</li>
-                <li class="job-tag">全栈开发</li>
-                <li class="job-tag">独立开发</li>
-              </ul>
-            </div>
-            <div class="company">
-              <img
-                style="width: 40px; height: 40px"
-                class="img-rounded"
-                src="../img/img1.jpg"
-              />
-              <div class="company-right">
-                <div class="company-name">
-                  <a href="">{{ job.companyName }}</a>
-                </div>
-                <div class="company-description">大型互联网公司/上市公司</div>
-              </div>
-            </div>
-          </el-card>
-        </div>
-
-        <!-- 岗位展示块 -->
-        <el-main>
-          <el-card v-for="item in this.pageData" class="box-card" :key="item">
-            <el-header class="myHeader">
-              <strong
-                ><span style="font-size: 30px; color: black">{{
-                  item.name
-                }}</span></strong
-              >
-              <strong
-                ><span style="font-size: 30px; color: red">{{
-                  item.salary
-                }}</span></strong
-              >
-            </el-header>
-
-            <div class="text item">
-              <strong
-                ><span style="margin-left: 20px"
-                  >工作地点：{{ item.location }}</span
-                ></strong
-              >
-            </div>
-            <div class="text item">
-              <strong
-                ><span style="margin-left: 20px"
-                  >工作负责：{{ item.introduce }}</span
-                ></strong
-              >
-            </div>
-            <div class="myHeader">
-              <strong
-                ><span style="margin-left: 20px; color: goldenrod">{{
-                  item.companyName
-                }}</span></strong
-              >
-              <el-button type="primary" @click="deliverResume(item)"
-                >投递简历</el-button
-              >
-            </div>
-          </el-card>
-
-          <el-divider></el-divider>
-          <div class="pageContainer">
-            <el-pagination
-              background
-              @current-change="handleCurrentChange"
-              :current-page.sync="currentPage1"
-              :page-count="this.totalPage"
-              layout="prev, pager, next"
-            >
-            </el-pagination>
-          </div>
-        </el-main>
-      </el-container>
-    </el-main>
+    
 
     <el-dialog
       title="简历模板"
@@ -561,10 +87,13 @@
         <el-button type="primary" @click="updateResume">确 定</el-button>
       </div>
     </el-dialog>
+    <img width="100%" src="../img/footer.png" />
   </el-container>
 </template>
 
 <script>
+import router from "../router";
+
 export default {
   name: "JobSeeker",
 
@@ -819,6 +348,10 @@ export default {
   },
 
   methods: {
+    handleSelect() {
+      this.$router.push("/JobSeekerHome");
+    },
+
     searchJob(item) {
       this.$message.success(item);
     },
@@ -957,6 +490,7 @@ dd > span:hover {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  background-color: #fff;
 }
 
 .myHeader2 {
