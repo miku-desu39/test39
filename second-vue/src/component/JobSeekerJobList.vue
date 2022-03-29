@@ -34,9 +34,68 @@
       <!-- <el-divider class="myDivider"></el-divider> -->
 
       <!-- 岗位展示块 -->
-      <el-main>
-        <el-card v-for="item in this.pageData" class="box-card" :key="item">
-          <el-header class="myHeader">
+      <el-main style="padding-top:0px">
+        <el-tabs style="width:1042px; margin:auto" @tab-click="handleClick">
+          <el-tab-pane name="most valuable">
+            <span slot="label" style="font-size:17px"><i class="el-icon-trophy"></i>最有价值</span>
+          </el-tab-pane>
+          <el-tab-pane name="latest release">
+            <span slot="label" style="font-size:17px"><i class="el-icon-alarm-clock"></i>最新发布</span>
+          </el-tab-pane>
+          <el-tab-pane name="most popular">
+            <span slot="label" style="font-size:17px"><i class="el-icon-medal-1"></i>最具人气</span>
+          </el-tab-pane>
+        </el-tabs>
+
+        <el-card
+          v-for="item in this.pageData"
+          class="box-card"
+          :key="item"
+          shadow="always"
+        >
+          <div class="myHeader">
+            <div class="job-name">
+              <a @click="searchJob(item)">{{ item.name }}</a>
+            </div>
+            <div class="job-salary">{{ item.salary }}</div>
+          </div>
+
+          <div class="job-tag-content">
+            <ul>
+              <li class="job-tag" style="width: 100px">
+                工作地点：{{ item.location }}
+              </li>
+              <li class="job-tag" style="width: 100px">招聘人数：5555</li>
+              <li class="job-tag" style="width: 100px">浏览量：8888</li>
+            </ul>
+          </div>
+          <div
+            style="
+              font-size: 12px;
+              color: #999999;
+              margin-top: 25px;
+              padding-left: 15px;
+            "
+          >
+            工作要求：{{ item.introduce }}
+          </div>
+          <div class="company">
+            <img
+              style="width: 40px; height: 40px"
+              class="img-rounded"
+              src="../img/img1.jpg"
+            />
+            <div class="company-right">
+              <div class="company-name">
+                <a href="">{{ item.companyName }}</a>
+              </div>
+              <div class="company-description">
+                阿里巴巴网络技术有限公司（简称：阿里巴巴集团）是以曾担任英语教师的马云为首的18人于1999年在浙江杭州创立
+              </div>
+            </div>
+          </div>
+
+          <!-- <el-header class="myHeader">
             <strong
               ><span style="font-size: 30px; color: black">{{
                 item.name
@@ -72,7 +131,7 @@
             <el-button type="primary" @click="deliverResume(item)"
               >投递简历</el-button
             >
-          </div>
+          </div> -->
         </el-card>
 
         <el-divider></el-divider>
@@ -106,6 +165,28 @@ export default {
       totalPage: 10,
 
       pageData: [
+        {
+          name: "java工程师",
+          salary: "10k-59k",
+          location: "杭州",
+          introduce:
+            "接收应届实习生，实习期满应聘上岗接收应届实习生，实习期满应聘上岗收应届实习生，实习期满应聘上岗",
+          companyName: "Tencent",
+        },
+        {
+          name: "java工程师",
+          salary: "10k-59k",
+          location: "上海",
+          introduce: "熟练使用RPC框架，具备相关的分布式开发经验",
+          companyName: "Tencent",
+        },
+        {
+          name: "java工程师",
+          salary: "10k-59k",
+          location: "china",
+          introduce: "code java for living",
+          companyName: "Tencent",
+        },
         {
           name: "java工程师",
           salary: "10k-59k",
@@ -152,14 +233,13 @@ export default {
 
   methods: {
     searchJob(item) {
-      this.$message.success(item);
+      this.$message.success(item.name);
     },
 
     handleClick(tab, event) {
       this.$message.success(tab.name);
 
-      if (tab.name == "技术") {
-      }
+      
     },
 
     updateResume() {
@@ -257,6 +337,7 @@ export default {
 </script>
 
 <style scoped>
+
 dd > span {
   color: black;
   font-size: 14px;

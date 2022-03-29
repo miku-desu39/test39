@@ -8,6 +8,7 @@ import ResumeList from "../views/ResumeList";
 import JobSeekerHome from '../component/JobSeekerHome';
 import JobSeekerJobList from '../component/JobSeekerJobList'
 import PersonalCenter from '../component/PersonalCenter'
+import JobDetail from '../component/JobDetail'
 Vue.use(VueRouter);
 
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
         path: '/PersonalCenter',
         name: 'PersonalCenter',
         component: PersonalCenter
+      },
+      {
+        path: '/JobDetail',
+        name: 'JobDetail',
+        component: JobDetail
       },
     ]
   },

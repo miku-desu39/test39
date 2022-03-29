@@ -13,8 +13,8 @@
           class="el-menu-demo"
           mode="horizontal"
           router
-          text-color="#39c5bb"
-          active-text-color="#ffd04b"
+          text-color="black"
+          active-text-color="#39c5bb"
         >
           <el-menu-item index="1" route="/JobSeekerHome"
             >职位推荐</el-menu-item
@@ -22,9 +22,9 @@
           <el-menu-item index="2" route="/JobSeekerJobList"
             >校园招聘</el-menu-item
           >
-          <el-menu-item index="4" route="/PersonalCenter">社会招聘</el-menu-item>
-          <el-menu-item index="5">公司推荐</el-menu-item>
-          <el-menu-item index="6">笔试面经</el-menu-item>
+          <el-menu-item index="3" route="/PersonalCenter">社会招聘</el-menu-item>
+          <el-menu-item index="4" route="/JobDetail">公司推荐</el-menu-item>
+          <el-menu-item index="5">笔试面经</el-menu-item>
         </el-menu>
       </div>
 
@@ -87,7 +87,12 @@
         <el-button type="primary" @click="updateResume">确 定</el-button>
       </div>
     </el-dialog>
-    <img width="100%" src="../img/footer.png" />
+
+    <div class="myHeader2">
+      <img width="200px" height="200px" src="../img/logo_transparent.png" />
+
+    </div>
+    
   </el-container>
 </template>
 
