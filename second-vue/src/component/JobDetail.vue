@@ -27,7 +27,7 @@
       <div>
         <el-button type="primary">投递简历</el-button>
 
-        <el-button type="primary">收藏职位</el-button>
+        <el-button type="warning">收藏职位</el-button>
       </div>
     </div>
 
@@ -44,16 +44,20 @@
         type="textarea"
         :autosize="{ minRows: 2, maxRows: 4 }"
         placeholder="请输入内容"
-        v-model=job.welfare
-        
+        v-model="job.welfare"
       >
       </el-input>
       <div v-html="job.welfare"></div>
-      <el-input type="textarea" v-model="job.welfare" :autosize="{ minRows: 2, maxRows: 4 }" readonly=true class="myInput"></el-input>
+      <el-input
+        type="textarea"
+        v-model="job.welfare"
+        :autosize="{ minRows: 2, maxRows: 4 }"
+        readonly="true"
+        class="myInput"
+      ></el-input>
 
       <h4>四.工作城市</h4>
-      <p>{{job.location}}</p>
-
+      <p>{{ job.location }}</p>
     </div>
   </el-main>
 </template>
@@ -64,6 +68,8 @@ export default {
 
   data() {
     return {
+      jobId: "",
+
       job: {
         name: "java工程师",
         salary: "10k-59k",
@@ -86,13 +92,30 @@ export default {
     };
   },
 
-  created() {},
+  created() {
+
+      if(this.$route.query.jobId){
+
+          this.jobId = this.$route.query.jobId;
+
+      }
+
+      this.initJob();
+
+      
+
+
+  },
 
   methods: {
 
-     
+    initJob(){
 
-    
+        this.$message.success(this.jobId);
+
+    },
+
+
   },
 };
 </script>
@@ -100,8 +123,6 @@ export default {
 
 
 <style scoped>
-
-
 .myHeader {
   display: flex;
   flex-direction: row;

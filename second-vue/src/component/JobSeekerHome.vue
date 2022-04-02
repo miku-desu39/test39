@@ -1,37 +1,19 @@
 <template>
   <el-main style="padding-top: 0px">
     <el-container>
+      <!-- 搜索框 -->
       <el-header class="myHeader2">
-        <!-- <span>职位推荐</span> -->
-
-        <!-- <el-input
-            placeholder="请输入岗位"
-            v-model="input"
-            style="width: 30%; border: 2px solid #39c5bb"
-          >
-            <el-button slot="append" style="background: #39c5bb"
-              >搜索岗位</el-button
-            >
-          </el-input> -->
-
         <div class="myHeader2">
           <input
-            v-model="input"
+            v-model="jobInput"
             placeholder="请输入职位"
             class="search-input"
           />
-          <el-button type="primary" class="search-button">搜索岗位</el-button>
+          <el-button type="primary" class="search-button" @click="searchJobByInput"
+            >搜索岗位</el-button
+          >
         </div>
-
-        <!-- <div style="display: flex">
-            <div><el-input v-model="input" placeholder="请输入职位" size="medium"></el-input></div>
-            <el-button type="primary" @click="getTargetJobList" style="margin-left: 10px">搜索职位</el-button>
-            <el-button type="success" @click="resetPage">重置</el-button>
-          </div> -->
-
-        <!-- <el-button type="primary" @click="dialogVisible = true">修改简历</el-button> -->
       </el-header>
-      <!-- <el-divider class="myDivider"></el-divider> -->
 
       <router-view></router-view>
 
@@ -42,7 +24,7 @@
         </el-carousel-item>
       </el-carousel>
 
-      <!-- 岗位列表 -->
+      <!-- 岗位密集列表 -->
       <el-tabs
         @tab-click="handleClick"
         value="技术"
@@ -52,9 +34,7 @@
         <el-tab-pane name="技术">
           <span slot="label" style="font-size: 17px">技术</span>
           <dl>
-            <dt>
-              后端开发
-            </dt>
+            <dt>后端开发</dt>
             <dd>
               <span
                 v-for="item in meta[0]"
@@ -388,6 +368,8 @@
 
       <el-divider></el-divider>
 
+      <!-- 岗位卡片 -->
+
       <div class="card_wrap">
         <el-card
           class="box-card"
@@ -398,7 +380,7 @@
         >
           <div class="myHeader">
             <div class="job-name">
-              <a>{{ job.title }}</a>
+              <a @click="viewJobDetail(job.id)">{{ job.title }}</a>
             </div>
             <div class="job-salary">10k-20k</div>
           </div>
@@ -426,48 +408,8 @@
         </el-card>
       </div>
 
-      <!-- 岗位展示块 -->
+      <!-- 底部分页 -->
       <el-main>
-        <el-card v-for="item in this.pageData" class="box-card" :key="item">
-          <el-header class="myHeader">
-            <strong
-              ><span style="font-size: 30px; color: black">{{
-                item.name
-              }}</span></strong
-            >
-            <strong
-              ><span style="font-size: 30px; color: red">{{
-                item.salary
-              }}</span></strong
-            >
-          </el-header>
-
-          <div class="text item">
-            <strong
-              ><span style="margin-left: 20px"
-                >工作地点：{{ item.location }}</span
-              ></strong
-            >
-          </div>
-          <div class="text item">
-            <strong
-              ><span style="margin-left: 20px"
-                >工作负责：{{ item.introduce }}</span
-              ></strong
-            >
-          </div>
-          <div class="myHeader">
-            <strong
-              ><span style="margin-left: 20px; color: goldenrod">{{
-                item.companyName
-              }}</span></strong
-            >
-            <el-button type="primary" @click="deliverResume(item)"
-              >投递简历</el-button
-            >
-          </div>
-        </el-card>
-
         <el-divider></el-divider>
         <div class="pageContainer">
           <el-pagination
@@ -490,6 +432,8 @@ export default {
 
   data() {
     return {
+      jobInput: "",
+
       imgList: [
         { id: 0, idView: require("@/img/poster1.png") },
         { id: 1, idView: require("@/img/poster2.png") },
@@ -693,44 +637,89 @@ export default {
       ],
 
       jobs: [
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
-        { title: "java开发工程师", companyId: 1, companyName: "alibaba" },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
+        {
+          id: 111,
+          title: "java开发工程师",
+          companyId: 1,
+          companyName: "alibaba",
+        },
       ],
 
       pageDataType: "normal",
-
-      input: "",
 
       currentPage1: 1,
 
       totalPage: 10,
 
-      pageData: [],
-
       email: window.sessionStorage.getItem("email"),
 
-      dialogVisible: false,
-
-      resumeForm: {
-        realName: "",
-        phoneNumber: "",
-        sex: "",
-        education: "",
-        school: "",
-        address: "",
-        intentionJob: "",
-        introduce: "",
-      },
+     
     };
   },
 
@@ -739,47 +728,45 @@ export default {
   },
 
   methods: {
-    searchJob(item) {
+    viewJobDetail(jobId) {
+      this.$router.push({
+        path: "/JobDetail",
+        query: {
+          jobId: jobId,
+        },
+      });
+    },
+
+    searchJobByInput() {
+      this.$message.success(this.jobInput);
+      this.$router.push({
+        path: "/JobSeekerJobList",
+        query: {
+          jobInput: this.jobInput,
+        },
+      });
+    },
+
+    searchJob(item){
       this.$message.success(item);
+      this.$router.push({
+        path: "/JobSeekerJobList",
+        query: {
+          jobInput: item,
+        },
+      });
+
+
+
     },
 
     handleClick(tab, event) {
       this.$message.success(tab.name);
 
-      if (tab.name == "技术") {
-      }
+      
     },
 
-    updateResume() {
-      this.$axios
-        .post("/Resume/updateResume?email=" + this.email, this.resumeForm)
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.$message.success("修改成功");
-          } else {
-            this.$message.error("修改失败");
-          }
-          this.dialogVisible = false;
-        });
-    },
-
-    deliverResume(item) {
-      this.$confirm("确认投递该岗位", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "info",
-      }).then(() => {
-        this.$axios
-          .get("/Resume/sendResume?email=" + this.email + "&jobId=" + item.id)
-          .then((resp) => {
-            if (resp.data.code === 200) {
-              this.$message.success("投递成功");
-            } else {
-              this.$message.error("投递失败");
-            }
-          });
-      });
-    },
+    // ------------------------------------------------------------------------------
 
     resetPage() {
       this.input = "";
@@ -845,16 +832,14 @@ export default {
 </script>
 
 <style scoped>
-
-dd{
-    margin-top: 10px;
+dd {
+  margin-top: 10px;
 }
 
 dd > span {
   color: black;
   font-size: 14px;
   margin-left: 8px;
-  
 }
 dd > span:hover {
   font-size: 14px;
@@ -925,12 +910,9 @@ dd > span:hover {
 }
 
 .box-card {
-  
   margin-bottom: 20px;
 
   padding: 20px;
-
- 
 }
 
 .pageContainer {

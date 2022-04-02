@@ -2,48 +2,33 @@
   <el-main style="padding-top: 0px">
     <el-container>
       <el-header class="myHeader2">
-        <!-- <span>职位推荐</span> -->
-
-        <!-- <el-input
-            placeholder="请输入岗位"
-            v-model="input"
-            style="width: 30%; border: 2px solid #39c5bb"
-          >
-            <el-button slot="append" style="background: #39c5bb"
-              >搜索岗位</el-button
-            >
-          </el-input> -->
-
         <div class="myHeader2">
           <input
-            v-model="input"
+            v-model="jobInput"
             placeholder="请输入职位"
             class="search-input"
           />
-          <el-button type="primary" class="search-button">搜索岗位</el-button>
+          <el-button type="primary" class="search-button" @click="searchJobList">搜索岗位</el-button>
         </div>
-
-        <!-- <div style="display: flex">
-            <div><el-input v-model="input" placeholder="请输入职位" size="medium"></el-input></div>
-            <el-button type="primary" @click="getTargetJobList" style="margin-left: 10px">搜索职位</el-button>
-            <el-button type="success" @click="resetPage">重置</el-button>
-          </div> -->
-
-        <!-- <el-button type="primary" @click="dialogVisible = true">修改简历</el-button> -->
       </el-header>
-      <!-- <el-divider class="myDivider"></el-divider> -->
 
       <!-- 岗位展示块 -->
-      <el-main style="padding-top:0px">
-        <el-tabs style="width:1042px; margin:auto" @tab-click="handleClick">
+      <el-main style="padding-top: 0px">
+        <el-tabs style="width: 1042px; margin: auto" @tab-click="handleClick">
           <el-tab-pane name="most valuable">
-            <span slot="label" style="font-size:17px"><i class="el-icon-trophy"></i>最有价值</span>
+            <span slot="label" style="font-size: 17px"
+              ><i class="el-icon-trophy"></i>最有价值</span
+            >
           </el-tab-pane>
           <el-tab-pane name="latest release">
-            <span slot="label" style="font-size:17px"><i class="el-icon-alarm-clock"></i>最新发布</span>
+            <span slot="label" style="font-size: 17px"
+              ><i class="el-icon-alarm-clock"></i>最新发布</span
+            >
           </el-tab-pane>
           <el-tab-pane name="most popular">
-            <span slot="label" style="font-size:17px"><i class="el-icon-medal-1"></i>最具人气</span>
+            <span slot="label" style="font-size: 17px"
+              ><i class="el-icon-medal-1"></i>最具人气</span
+            >
           </el-tab-pane>
         </el-tabs>
 
@@ -55,7 +40,7 @@
         >
           <div class="myHeader">
             <div class="job-name">
-              <a @click="searchJob(item)">{{ item.name }}</a>
+              <a @click="viewJobDetail(item.name)">{{ item.name }}</a>
             </div>
             <div class="job-salary">{{ item.salary }}</div>
           </div>
@@ -95,43 +80,6 @@
             </div>
           </div>
 
-          <!-- <el-header class="myHeader">
-            <strong
-              ><span style="font-size: 30px; color: black">{{
-                item.name
-              }}</span></strong
-            >
-            <strong
-              ><span style="font-size: 30px; color: red">{{
-                item.salary
-              }}</span></strong
-            >
-          </el-header>
-
-          <div class="text item">
-            <strong
-              ><span style="margin-left: 20px"
-                >工作地点：{{ item.location }}</span
-              ></strong
-            >
-          </div>
-          <div class="text item">
-            <strong
-              ><span style="margin-left: 20px"
-                >工作负责：{{ item.introduce }}</span
-              ></strong
-            >
-          </div>
-          <div class="myHeader">
-            <strong
-              ><span style="margin-left: 20px; color: goldenrod">{{
-                item.companyName
-              }}</span></strong
-            >
-            <el-button type="primary" @click="deliverResume(item)"
-              >投递简历</el-button
-            >
-          </div> -->
         </el-card>
 
         <el-divider></el-divider>
@@ -156,9 +104,9 @@ export default {
 
   data() {
     return {
-      pageDataType: "normal",
+      jobInput: "",
 
-      input: "",
+      pageDataType: "normal",
 
       currentPage1: 1,
 
@@ -212,132 +160,44 @@ export default {
 
       email: window.sessionStorage.getItem("email"),
 
-      dialogVisible: false,
-
-      resumeForm: {
-        realName: "",
-        phoneNumber: "",
-        sex: "",
-        education: "",
-        school: "",
-        address: "",
-        intentionJob: "",
-        introduce: "",
-      },
     };
   },
 
   created() {
+    if (this.$route.query.jobInput) {
+      this.jobInput = this.$route.query.jobInput;
+    }
+
+    this.initJob();
     this.getJobList();
   },
 
   methods: {
-    searchJob(item) {
-      this.$message.success(item.name);
+    viewJobDetail(jobId) {
+      this.$router.push({
+        path: "/JobDetail",
+        query: {
+          jobId: jobId,
+        },
+      });
+    },
+
+    searchJobList() {
+      this.$message.success(this.jobInput);
     },
 
     handleClick(tab, event) {
       this.$message.success(tab.name);
-
-      
     },
 
-    updateResume() {
-      this.$axios
-        .post("/Resume/updateResume?email=" + this.email, this.resumeForm)
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.$message.success("修改成功");
-          } else {
-            this.$message.error("修改失败");
-          }
-          this.dialogVisible = false;
-        });
-    },
 
-    deliverResume(item) {
-      this.$confirm("确认投递该岗位", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "info",
-      }).then(() => {
-        this.$axios
-          .get("/Resume/sendResume?email=" + this.email + "&jobId=" + item.id)
-          .then((resp) => {
-            if (resp.data.code === 200) {
-              this.$message.success("投递成功");
-            } else {
-              this.$message.error("投递失败");
-            }
-          });
-      });
-    },
+    // -------------------------------------------------------------------
 
-    resetPage() {
-      this.input = "";
-      this.currentPage1 = 1;
-      this.pageDataType = "normal";
-      this.getJobList();
-      this.$message.success("已重置");
-    },
-
-    getTargetJobList() {
-      if (this.pageDataType === "normal") {
-        this.currentPage1 = 1;
-        this.pageDataType = "special";
-      }
-
-      this.$axios
-        .post("/Job/listJobByFuzzyQuery?keyWord=" + this.input, {
-          pageNum: this.currentPage1,
-          pageSize: 5,
-        })
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.pageData = resp.data.data.pageData;
-            this.totalPage = resp.data.data.totalPageNum;
-
-            this.$message.success("查询成功！");
-          } else {
-            this.$message.error("发送失败！");
-          }
-        });
-    },
-
-    getJobList() {
-      this.$axios
-        .post("/Job/listJobByPage", {
-          pageNum: this.currentPage1,
-          pageSize: 5,
-        })
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.pageData = resp.data.data.pageData;
-            this.totalPage = resp.data.data.totalPageNum;
-          } else {
-            this.$message.error("发送失败！");
-          }
-        });
-    },
-
-    handleCurrentChange() {
-      if (this.pageDataType === "normal") {
-        this.getJobList();
-      } else {
-        this.getTargetJobList();
-      }
-    },
-
-    quit(command) {
-      this.$router.replace("/");
-      this.$message.success("退出成功！");
-    },
   },
 };
 </script>
 
 <style scoped>
-
 dd > span {
   color: black;
   font-size: 14px;

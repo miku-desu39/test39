@@ -43,50 +43,6 @@
 
     <router-view></router-view>
 
-    
-
-    <el-dialog
-      title="简历模板"
-      :visible.sync="dialogVisible"
-      width="30%"
-      center
-    >
-      <el-form ref="resumeForm" :model="resumeForm" label-width="80px">
-        <el-form-item label="真实姓名">
-          <el-input v-model="resumeForm.realName"></el-input>
-        </el-form-item>
-
-        <el-form-item label="电话">
-          <el-input v-model="resumeForm.phoneNumber"></el-input>
-        </el-form-item>
-
-        <el-form-item label="性别">
-          <el-radio v-model="resumeForm.sex" label="1">男</el-radio>
-          <el-radio v-model="resumeForm.sex" label="0">女</el-radio>
-        </el-form-item>
-
-        <el-form-item label="学历">
-          <el-input v-model="resumeForm.education"></el-input>
-        </el-form-item>
-        <el-form-item label="毕业学校">
-          <el-input v-model="resumeForm.school"></el-input>
-        </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="resumeForm.address"></el-input>
-        </el-form-item>
-        <el-form-item label="意向岗位">
-          <el-input v-model="resumeForm.intentionJob"></el-input>
-        </el-form-item>
-        <el-form-item label="自我介绍">
-          <el-input v-model="resumeForm.introduce"></el-input>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateResume">确 定</el-button>
-      </div>
-    </el-dialog>
 
     <div class="myHeader2">
       <img width="200px" height="200px" src="../img/logo_transparent.png" />
