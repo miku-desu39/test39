@@ -14,7 +14,7 @@
 
       <!-- 岗位展示块 -->
       <el-main style="padding-top: 0px">
-        <el-tabs style="width: 1042px; margin: auto" @tab-click="handleClick">
+        <el-tabs style="width: 1042px; margin: auto" @tab-click="searchJobListByCondition">
           <el-tab-pane name="most valuable">
             <span slot="label" style="font-size: 17px"
               ><i class="el-icon-trophy"></i>最有价值</span
@@ -168,8 +168,8 @@ export default {
       this.jobInput = this.$route.query.jobInput;
     }
 
-    this.initJob();
-    this.getJobList();
+    this.searchJobList();
+    
   },
 
   methods: {
@@ -186,10 +186,11 @@ export default {
       this.$message.success(this.jobInput);
     },
 
-    handleClick(tab, event) {
-      this.$message.success(tab.name);
+    searchJobListByCondition(tab, event) {
+      this.$message.success(tab.name + "" +this.jobInput);
     },
 
+    
 
     // -------------------------------------------------------------------
 
