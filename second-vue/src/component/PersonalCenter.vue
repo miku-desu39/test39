@@ -32,8 +32,8 @@
               <el-input v-model="information.name"></el-input>
             </el-form-item>
             <el-form-item label="真实性别">
-              <el-radio v-model="information.gender" label="男">男</el-radio>
-              <el-radio v-model="information.gender" label="女">女</el-radio>
+              <el-radio v-model="information.gender" label="1">男</el-radio>
+              <el-radio v-model="information.gender" label="2">女</el-radio>
             </el-form-item>
             <el-form-item label="出生年份">
               <el-date-picker
@@ -249,7 +249,7 @@ export default {
         phone: "",
         password: "",
         name: "",
-        gender: "",
+        gender: "2",
         birthday: "",
         graduationDate: "",
         location: "",

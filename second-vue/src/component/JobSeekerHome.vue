@@ -9,7 +9,10 @@
             placeholder="请输入职位"
             class="search-input"
           />
-          <el-button type="primary" class="search-button" @click="searchJobByInput"
+          <el-button
+            type="primary"
+            class="search-button"
+            @click="searchJobByInput"
             >搜索岗位</el-button
           >
         </div>
@@ -380,29 +383,29 @@
         >
           <div class="myHeader">
             <div class="job-name">
-              <a @click="viewJobDetail(job.id)">{{ job.title }}</a>
+              <a @click="viewJobDetail(job.id)">{{ job.name }}</a>
             </div>
-            <div class="job-salary">10k-20k</div>
+            <div class="job-salary">{{ job.salary }}</div>
           </div>
 
           <div class="job-tag-content">
             <ul class="">
-              <li class="job-tag">数据分析</li>
-              <li class="job-tag">全栈开发</li>
-              <li class="job-tag">周末双休</li>
+              <li class="job-tag">{{ job.tag1 }}</li>
+              <li class="job-tag">{{ job.tag2 }}</li>
+              <li class="job-tag">{{ job.tag3 }}</li>
             </ul>
           </div>
           <div class="company">
             <img
               style="width: 40px; height: 40px"
               class="img-rounded"
-              src="../img/img1.jpg"
+              :src="require('./../img/img'+job.companyId+'.jpg')"
             />
             <div class="company-right">
               <div class="company-name">
                 <a href="">{{ job.companyName }}</a>
               </div>
-              <div class="company-description">大型互联网公司/上市公司</div>
+              <div class="company-description">{{ job.companyTag }}</div>
             </div>
           </div>
         </el-card>
@@ -415,8 +418,9 @@
           <el-pagination
             background
             @current-change="handleCurrentChange"
-            :current-page.sync="currentPage1"
-            :page-count="this.totalPage"
+            :current-page.sync="currentPage"
+            :page-size="12"
+            :page-count.sync="totalPage"
             layout="prev, pager, next"
           >
           </el-pagination>
@@ -636,98 +640,53 @@ export default {
         ["审计", "法务", "会计", "清算"],
       ],
 
-      jobs: [
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-        {
-          id: 111,
-          title: "java开发工程师",
-          companyId: 1,
-          companyName: "alibaba",
-        },
-      ],
-
-      pageDataType: "normal",
-
-      currentPage1: 1,
+      jobs: [],
 
       totalPage: 10,
 
       email: window.sessionStorage.getItem("email"),
 
-     
+      currentPage: 1,
     };
   },
 
   created() {
-    this.getJobList();
+    this.currentPage = 1;
+    this.getJobHomeJobList();
+    
   },
 
   methods: {
+
+
+    getJobHomeJobList(){
+
+        this.$axios
+        .post("/api/job/getJobHomeJobList", {
+          pageNum: this.currentPage,
+          pageSize: 9,
+        })
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.jobs = resp.data.data.rows;
+            this.totalPage = resp.data.data.totalPage;
+
+            this.$message.success("查询成功！");
+          } else {
+            this.$message.error("发送失败！");
+          }
+        });
+
+
+
+    },
+
+    handleCurrentChange() {
+      this.getJobHomeJobList();
+    },
+
+
+
     viewJobDetail(jobId) {
       this.$router.push({
         path: "/JobDetail",
@@ -747,7 +706,7 @@ export default {
       });
     },
 
-    searchJob(item){
+    searchJob(item) {
       this.$message.success(item);
       this.$router.push({
         path: "/JobSeekerJobList",
@@ -755,78 +714,16 @@ export default {
           jobInput: item,
         },
       });
-
-
-
     },
 
     handleClick(tab, event) {
       this.$message.success(tab.name);
-
-      
     },
 
     // ------------------------------------------------------------------------------
 
-    resetPage() {
-      this.input = "";
-      this.currentPage1 = 1;
-      this.pageDataType = "normal";
-      this.getJobList();
-      this.$message.success("已重置");
-    },
-
-    getTargetJobList() {
-      if (this.pageDataType === "normal") {
-        this.currentPage1 = 1;
-        this.pageDataType = "special";
-      }
-
-      this.$axios
-        .post("/Job/listJobByFuzzyQuery?keyWord=" + this.input, {
-          pageNum: this.currentPage1,
-          pageSize: 5,
-        })
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.pageData = resp.data.data.pageData;
-            this.totalPage = resp.data.data.totalPageNum;
-
-            this.$message.success("查询成功！");
-          } else {
-            this.$message.error("发送失败！");
-          }
-        });
-    },
-
-    getJobList() {
-      this.$axios
-        .post("/Job/listJobByPage", {
-          pageNum: this.currentPage1,
-          pageSize: 5,
-        })
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.pageData = resp.data.data.pageData;
-            this.totalPage = resp.data.data.totalPageNum;
-          } else {
-            this.$message.error("发送失败！");
-          }
-        });
-    },
-
-    handleCurrentChange() {
-      if (this.pageDataType === "normal") {
-        this.getJobList();
-      } else {
-        this.getTargetJobList();
-      }
-    },
-
-    quit(command) {
-      this.$router.replace("/");
-      this.$message.success("退出成功！");
-    },
+    
+      
   },
 };
 </script>
@@ -849,9 +746,8 @@ dd > span:hover {
 
 .card_wrap {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .courseDiv {
   height: 273px;
@@ -911,6 +807,7 @@ dd > span:hover {
 
 .box-card {
   margin-bottom: 20px;
+  margin-left: 20px;
 
   padding: 20px;
 }
@@ -996,6 +893,7 @@ dd > span:hover {
   color: #6aa2e4;
 }
 .company .company-right .company-description {
+  margin-top: 5px;
   font-size: 12px;
   color: #999999;
 }

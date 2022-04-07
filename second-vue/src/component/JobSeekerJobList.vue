@@ -15,17 +15,17 @@
       <!-- 岗位展示块 -->
       <el-main style="padding-top: 0px">
         <el-tabs style="width: 1042px; margin: auto" @tab-click="searchJobListByCondition">
-          <el-tab-pane name="most valuable">
+          <el-tab-pane name="mostValuable">
             <span slot="label" style="font-size: 17px"
               ><i class="el-icon-trophy"></i>最有价值</span
             >
           </el-tab-pane>
-          <el-tab-pane name="latest release">
+          <el-tab-pane name="latestRelease">
             <span slot="label" style="font-size: 17px"
               ><i class="el-icon-alarm-clock"></i>最新发布</span
             >
           </el-tab-pane>
-          <el-tab-pane name="most popular">
+          <el-tab-pane name="mostPopular">
             <span slot="label" style="font-size: 17px"
               ><i class="el-icon-medal-1"></i>最具人气</span
             >
@@ -87,8 +87,9 @@
           <el-pagination
             background
             @current-change="handleCurrentChange"
-            :current-page.sync="currentPage1"
-            :page-count="this.totalPage"
+            :current-page.sync="currentPage"
+            :page-size="9"
+            :page-count.sync="totalPage"
             layout="prev, pager, next"
           >
           </el-pagination>
@@ -106,9 +107,7 @@ export default {
     return {
       jobInput: "",
 
-      pageDataType: "normal",
-
-      currentPage1: 1,
+      currentPage: 1,
 
       totalPage: 10,
 

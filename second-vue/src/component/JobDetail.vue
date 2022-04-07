@@ -34,27 +34,27 @@
     <div style="padding: 30px">
       <h4>一.公司介绍</h4>
       <p>公司名：{{ job.companyName }}</p>
-      <p>公司描述：{{ job.companyDetail }}</p>
+      <p>公司描述：{{ job.companyIntroduce }}</p>
 
       <h4>二.任职要求</h4>
-      <p>{{ job.introduce }}</p>
+      <p>{{ job.requirement }}</p>
 
       <h4>三.福利待遇</h4>
-      <el-input
+      <!-- <el-input
         type="textarea"
         :autosize="{ minRows: 2, maxRows: 4 }"
         placeholder="请输入内容"
         v-model="job.welfare"
       >
-      </el-input>
+      </el-input> -->
       <div v-html="job.welfare"></div>
-      <el-input
+      <!-- <el-input
         type="textarea"
         v-model="job.welfare"
         :autosize="{ minRows: 2, maxRows: 4 }"
         readonly="true"
         class="myInput"
-      ></el-input>
+      ></el-input> -->
 
       <h4>四.工作城市</h4>
       <p>{{ job.location }}</p>
@@ -68,54 +68,72 @@ export default {
 
   data() {
     return {
+
+      jobseekerId:"",
+
       jobId: "",
 
       job: {
-        name: "java工程师",
-        salary: "10k-59k",
-        location: "杭州",
-        introduce:
-          "接收应届实习生，实习期满应聘上岗接收应届实习生，实习期满应聘上岗收应届实习生，实习期满应聘上岗",
-        companyName: "Tencent",
-        number: 500,
-        companyDetail:
-          "阿里巴巴网络技术有限公司（简称：阿里巴巴集团）是以曾担任英语教师的马云为首的18人于1999年在浙江杭州创立",
-        welfare:
-          "1、五险一金 </br> 2、上班时间：8：30-12:00,13:30-17:30，国家法定节假日 </br> 3、生日福利卡 </br>4、定期的员工活动，聚餐旅游等 </br>5、扁平化管理，为员工提供公平公正公开的晋升渠道",
-        pageviews: 821,
-        tag1: "java开发",
-        tag2: "五险一金",
-        tag3: "周末双休",
+        id: "",
+        companyName: "",
+        companyIntroduce: "",
+        name: "",
+        salary: "",
+        location: "",
+        tag1: "",
+        tag2: "",
+        tag3: "",
+        requirement: "",
+        welfare: "",
+        number: "",
+        pageviews: "",
       },
+
+      // job: {
+      //   name: "java工程师",
+      //   salary: "10k-59k",
+      //   location: "杭州",
+      //   introduce:
+      //     "接收应届实习生，实习期满应聘上岗接收应届实习生，实习期满应聘上岗收应届实习生，实习期满应聘上岗",
+      //   companyName: "Tencent",
+      //   number: 500,
+      //   companyDetail:
+      //     "阿里巴巴网络技术有限公司（简称：阿里巴巴集团）是以曾担任英语教师的马云为首的18人于1999年在浙江杭州创立",
+      //   welfare:
+      //     "1、五险一金 </br> 2、上班时间：8：30-12:00,13:30-17:30，国家法定节假日 </br> 3、生日福利卡 </br>4、定期的员工活动，聚餐旅游等 </br>5、扁平化管理，为员工提供公平公正公开的晋升渠道",
+      //   pageviews: 821,
+      //   tag1: "java开发",
+      //   tag2: "五险一金",
+      //   tag3: "周末双休",
+      // },
 
       email: window.sessionStorage.getItem("email"),
     };
   },
 
   created() {
+    if (this.$route.query.jobId) {
+      this.jobId = this.$route.query.jobId;
+    }
 
-      if(this.$route.query.jobId){
-
-          this.jobId = this.$route.query.jobId;
-
-      }
-
-      this.initJob();
-
-      
-
-
+    this.initJob();
   },
 
   methods: {
+    initJob() {
+      this.$message.success(this.jobId);
 
-    initJob(){
-
-        this.$message.success(this.jobId);
-
+       this.$axios
+        .get("/api/job/viewJobDetail?jobId="+this.jobId)
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.job = resp.data.data;
+            this.$message.success("修改成功");
+          } else {
+            this.$message.error("修改失败");
+          }
+        });
     },
-
-
   },
 };
 </script>
