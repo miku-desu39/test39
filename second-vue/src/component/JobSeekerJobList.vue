@@ -33,25 +33,25 @@
         </el-tabs>
 
         <el-card
-          v-for="item in this.pageData"
+          v-for="job in jobs"
           class="box-card"
-          :key="item"
+          :key="job"
           shadow="always"
         >
           <div class="myHeader">
             <div class="job-name">
-              <a @click="viewJobDetail(item.name)">{{ item.name }}</a>
+              <a @click="viewJobDetail(job.id)">{{ job.name }}</a>
             </div>
-            <div class="job-salary">{{ item.salary }}</div>
+            <div class="job-salary">{{ job.salary }}</div>
           </div>
 
           <div class="job-tag-content">
             <ul>
               <li class="job-tag" style="width: 100px">
-                工作地点：{{ item.location }}
+                工作地点：{{ job.location }}
               </li>
-              <li class="job-tag" style="width: 100px">招聘人数：5555</li>
-              <li class="job-tag" style="width: 100px">浏览量：8888</li>
+              <li class="job-tag" style="width: 100px">招聘人数：{{job.number}}</li>
+              <li class="job-tag" style="width: 100px">浏览量：{{job.pageviews}}</li>
             </ul>
           </div>
           <div
@@ -62,20 +62,20 @@
               padding-left: 15px;
             "
           >
-            工作要求：{{ item.introduce }}
+            工作要求：{{ job.requirement }}
           </div>
           <div class="company">
             <img
               style="width: 40px; height: 40px"
               class="img-rounded"
-              src="../img/img1.jpg"
+              :src="require('./../img/img'+job.companyId+'.jpg')"
             />
             <div class="company-right">
               <div class="company-name">
-                <a href="">{{ item.companyName }}</a>
+                <a href="">{{ job.companyName }}</a>
               </div>
               <div class="company-description">
-                阿里巴巴网络技术有限公司（简称：阿里巴巴集团）是以曾担任英语教师的马云为首的18人于1999年在浙江杭州创立
+                {{job.companyIntroduce}}
               </div>
             </div>
           </div>
@@ -111,51 +111,11 @@ export default {
 
       totalPage: 10,
 
-      pageData: [
-        {
-          name: "java工程师",
-          salary: "10k-59k",
-          location: "杭州",
-          introduce:
-            "接收应届实习生，实习期满应聘上岗接收应届实习生，实习期满应聘上岗收应届实习生，实习期满应聘上岗",
-          companyName: "Tencent",
-        },
-        {
-          name: "java工程师",
-          salary: "10k-59k",
-          location: "上海",
-          introduce: "熟练使用RPC框架，具备相关的分布式开发经验",
-          companyName: "Tencent",
-        },
-        {
-          name: "java工程师",
-          salary: "10k-59k",
-          location: "china",
-          introduce: "code java for living",
-          companyName: "Tencent",
-        },
-        {
-          name: "java工程师",
-          salary: "10k-59k",
-          location: "china",
-          introduce: "code java for living",
-          companyName: "Tencent",
-        },
-        {
-          name: "java工程师",
-          salary: "10k-59k",
-          location: "china",
-          introduce: "code java for living",
-          companyName: "Tencent",
-        },
-        {
-          name: "java工程师",
-          salary: "10k-59k",
-          location: "china",
-          introduce: "code java for living",
-          companyName: "Tencent",
-        },
-      ],
+      jobs:[],
+
+      order: " ",
+
+      
 
       email: window.sessionStorage.getItem("email"),
 
@@ -163,6 +123,7 @@ export default {
   },
 
   created() {
+    this.currentPage = 1;
     if (this.$route.query.jobInput) {
       this.jobInput = this.$route.query.jobInput;
     }
@@ -182,12 +143,37 @@ export default {
     },
 
     searchJobList() {
-      this.$message.success(this.jobInput);
+
+         this.$axios
+        .post("/api/job/searchJobByKeyWord", {
+          pageNum: this.currentPage,
+          pageSize: 9,
+          keyword: this.jobInput,
+          order: this.order
+        })
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.jobs = resp.data.data.rows;
+            this.totalPage = resp.data.data.totalPage;
+
+            this.$message.success("查询成功！");
+          } else {
+            this.$message.error("发送失败！");
+          }
+        });
     },
 
     searchJobListByCondition(tab, event) {
       this.$message.success(tab.name + "" +this.jobInput);
+      this.order = tab.name;
+      this.searchJobList();
+
+
     },
+
+    handleCurrentChange(){
+      this.searchJobList();
+    }
 
     
 
