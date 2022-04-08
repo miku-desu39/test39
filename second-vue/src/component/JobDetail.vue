@@ -25,9 +25,9 @@
       </div>
 
       <div>
-        <el-button type="primary">投递简历</el-button>
+        <el-button type="primary" @click="postJob">投递简历</el-button>
 
-        <el-button type="warning">收藏职位</el-button>
+        <el-button type="warning" @click="starJob">收藏职位</el-button>
       </div>
     </div>
 
@@ -69,7 +69,7 @@ export default {
   data() {
     return {
 
-      jobseekerId:"",
+      jobseekerId: 1,
 
       jobId: "",
 
@@ -88,24 +88,6 @@ export default {
         number: "",
         pageviews: "",
       },
-
-      // job: {
-      //   name: "java工程师",
-      //   salary: "10k-59k",
-      //   location: "杭州",
-      //   introduce:
-      //     "接收应届实习生，实习期满应聘上岗接收应届实习生，实习期满应聘上岗收应届实习生，实习期满应聘上岗",
-      //   companyName: "Tencent",
-      //   number: 500,
-      //   companyDetail:
-      //     "阿里巴巴网络技术有限公司（简称：阿里巴巴集团）是以曾担任英语教师的马云为首的18人于1999年在浙江杭州创立",
-      //   welfare:
-      //     "1、五险一金 </br> 2、上班时间：8：30-12:00,13:30-17:30，国家法定节假日 </br> 3、生日福利卡 </br>4、定期的员工活动，聚餐旅游等 </br>5、扁平化管理，为员工提供公平公正公开的晋升渠道",
-      //   pageviews: 821,
-      //   tag1: "java开发",
-      //   tag2: "五险一金",
-      //   tag3: "周末双休",
-      // },
 
       email: window.sessionStorage.getItem("email"),
     };
@@ -128,9 +110,42 @@ export default {
         .then((resp) => {
           if (resp.data.code === 200) {
             this.job = resp.data.data;
-            this.$message.success("修改成功");
           } else {
-            this.$message.error("修改失败");
+            this.$message.error("错误："+resp.data.message);
+          }
+        });
+    },
+
+    starJob() {
+      this.$message.success(this.jobId);
+
+       this.$axios
+        .post("/api/job/starJob",{
+          jobId: this.jobId,
+          jobseekerId: this.jobseekerId
+        })
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.$message.success("收藏职位成功");
+          } else {
+            this.$message.error("OH~ "+resp.data.message);
+          }
+        });
+    },
+
+    postJob() {
+      this.$message.success(this.jobId);
+
+       this.$axios
+        .post("/api/job/postJob",{
+          jobId: this.jobId,
+          jobseekerId: this.jobseekerId
+        })
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.$message.success("投递职位成功");
+          } else {
+            this.$message.error("OH~ "+resp.data.message);
           }
         });
     },
