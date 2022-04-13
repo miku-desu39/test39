@@ -18,7 +18,7 @@
         </div>
       </el-header>
 
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
 
       <!-- 轮播图 -->
       <el-carousel :interval="4000" type="card" height="300px">

@@ -9,6 +9,7 @@ import JobSeekerHome from '../component/JobSeekerHome';
 import JobSeekerJobList from '../component/JobSeekerJobList'
 import PersonalCenter from '../component/PersonalCenter'
 import JobDetail from '../component/JobDetail'
+import CompanyCenter from '../component/CompanyCenter'
 Vue.use(VueRouter);
 
 const routes = [
@@ -44,6 +45,11 @@ const routes = [
         path: '/JobDetail',
         name: 'JobDetail',
         component: JobDetail
+      },
+      {
+        path: '/CompanyCenter',
+        name: 'CompanyCenter',
+        component: CompanyCenter
       },
     ]
   },

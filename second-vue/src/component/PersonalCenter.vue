@@ -14,21 +14,22 @@
             :model="information"
             label-width="100px"
             style="width: 50%"
+            :rules="rules"
           >
             <el-form-item label="我的邮箱">
               <el-input v-model="information.email" disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="手机号码">
+            <el-form-item label="手机号码" prop="phone">
               <el-input v-model="information.phone"></el-input>
             </el-form-item>
-            <el-form-item label="用户密码">
+            <el-form-item label="用户密码" prop="password">
               <el-input
                 v-model="information.password"
                 show-password
                 placeholder="修改密码"
               ></el-input>
             </el-form-item>
-            <el-form-item label="真实姓名">
+            <el-form-item label="真实姓名" prop="name">
               <el-input v-model="information.name"></el-input>
             </el-form-item>
             <el-form-item label="真实性别">
@@ -40,6 +41,8 @@
                 v-model="information.birthday"
                 type="date"
                 placeholder="选择日期"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
               >
               </el-date-picker>
             </el-form-item>
@@ -48,6 +51,8 @@
                 v-model="information.graduationDate"
                 type="date"
                 placeholder="选择日期"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
               >
               </el-date-picker>
             </el-form-item>
@@ -68,7 +73,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="学校名称">
+            <el-form-item label="学校名称" prop="miku">
               <el-input v-model="information.schoolName"></el-input>
             </el-form-item>
             <el-form-item label="专业名称">
@@ -81,7 +86,7 @@
             <el-form-item>
               <el-button
                 type="primary"
-                @click="saveInformation"
+                @click="saveJobseekerDetail('information')"
                 style="width: 150px"
                 >保存</el-button
               >
@@ -111,7 +116,7 @@
               type="textarea"
               :autosize="{ minRows: 3, maxRows: 3 }"
               placeholder="请输入内容"
-              v-model="resume.professionalAbility"
+              v-model="resume.internshipExperience"
             >
             </el-input>
           </div>
@@ -121,7 +126,7 @@
               type="textarea"
               :autosize="{ minRows: 3, maxRows: 3 }"
               placeholder="请输入内容"
-              v-model="resume.professionalAbility"
+              v-model="resume.workExperience"
             >
             </el-input>
           </div>
@@ -131,7 +136,7 @@
               type="textarea"
               :autosize="{ minRows: 3, maxRows: 3 }"
               placeholder="请输入内容"
-              v-model="resume.professionalAbility"
+              v-model="resume.awards"
             >
             </el-input>
           </div>
@@ -142,14 +147,14 @@
               type="textarea"
               :autosize="{ minRows: 3, maxRows: 3 }"
               placeholder="请输入内容"
-              v-model="resume.professionalAbility"
+              v-model="resume.inaugurationExpectation"
             >
             </el-input>
           </div>
 
           <el-button
             type="primary"
-            @click="saveInformation"
+            @click="saveResumeDetail"
             style="width: 150px; margin-top: 30px"
             >保存</el-button
           >
@@ -164,21 +169,38 @@
           <el-table :data="postRecord" border style="width: 100%" stripe>
             <el-table-column prop="jobName" label="职位名" width="280">
             </el-table-column>
-            <el-table-column prop="salary" label="薪资" width="280">
+            <el-table-column prop="jobSalary" label="薪资" width="280">
             </el-table-column>
-            <el-table-column prop="location" label="工作城市">
+            <el-table-column prop="jobLocation" label="工作城市">
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" @click="viewJobDetail(scope.row.jobId)"
+                <el-button
+                  type="primary"
+                  @click="viewJobDetail(scope.row.jobId)"
                   >查看职位</el-button
                 >
-                <el-button type="danger" @click="cancelDelivery(scope.row.id)"
+                <el-button type="danger" @click="cancelPost(scope.row.id)"
                   >取消投递</el-button
                 ></template
               >
             </el-table-column>
           </el-table>
+
+          <el-divider></el-divider>
+          <div class="myMain">
+            <div class="pageContainer">
+              <el-pagination
+                background
+                @current-change="getPostJob"
+                :current-page.sync="currentPage1"
+                :page-size="10"
+                :page-count.sync="totalPage1"
+                layout="prev, pager, next"
+              >
+              </el-pagination>
+            </div>
+          </div>
         </el-main>
       </el-tab-pane>
       <el-tab-pane>
@@ -190,13 +212,15 @@
           <el-table :data="starRecord" border style="width: 100%" stripe>
             <el-table-column prop="jobName" label="职位名" width="280">
             </el-table-column>
-            <el-table-column prop="salary" label="薪资" width="280">
+            <el-table-column prop="jobSalary" label="薪资" width="280">
             </el-table-column>
-            <el-table-column prop="location" label="工作城市">
+            <el-table-column prop="jobLocation" label="工作城市">
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" @click="viewJobDetail(scope.row.jobId)"
+                <el-button
+                  type="primary"
+                  @click="viewJobDetail(scope.row.jobId)"
                   >查看职位</el-button
                 >
                 <el-button type="danger" @click="cancelStar(scope.row.id)"
@@ -205,6 +229,21 @@
               >
             </el-table-column>
           </el-table>
+
+          <el-divider></el-divider>
+          <div class="myMain">
+            <div class="pageContainer">
+              <el-pagination
+                background
+                @current-change="getStarJob"
+                :current-page.sync="currentPage2"
+                :page-size="10"
+                :page-count.sync="totalPage2"
+                layout="prev, pager, next"
+              >
+              </el-pagination>
+            </div>
+          </div>
         </el-main>
       </el-tab-pane>
     </el-tabs>
@@ -219,6 +258,14 @@ export default {
 
   data() {
     return {
+      jobseekerId: 2,
+
+      currentPage1: 1,
+      currentPage2: 1,
+
+      totalPage1: 10,
+      totalPage2: 10,
+
       //学历选项
       educationOptions: [
         {
@@ -244,107 +291,167 @@ export default {
       ],
 
       // 个人信息
-      information: {
-        email: "111111@qq.com",
-        phone: "",
-        password: "",
-        name: "",
-        gender: "2",
-        birthday: "",
-        graduationDate: "",
-        location: "",
-        highestEducation: "",
-        schoolName: "",
-        majorName: "",
-        careerDirection: "",
-      },
+      information: {},
 
       //简历信息
-      resume: {
-        professionalAbility: "",
-        internshipExperience: "",
-        workExperience: "",
-        awards: "",
-        inaugurationExpectation: "",
-      },
+      resume: {},
 
       //投递记录
-      postRecord: [
-        {
-          id: 2000,
-          jobId: 1000,
-          jobName: "java开发工程师",
-          salary: "8k-12k",
-          location: "北京",
-        },
-        {
-          id: 2001,
-          jobId: 1000,
-          jobName: "java开发工程师",
-          salary: "8k-12k",
-          location: "北京",
-        },
-        {
-          id: 2002,
-          jobId: 1000,
-          jobName: "java开发工程师",
-          salary: "8k-12k",
-          location: "北京",
-        },
-        {
-          id: 2003,
-          jobId: 1000,
-          jobName: "java开发工程师",
-          salary: "8k-12k",
-          location: "北京",
-        },
-      
-      ],
+      postRecord: [],
 
       //收藏列表
-      starRecord: [
-       {
-          id: 2001,
-          jobId: 1000,
-          jobName: "java开发工程师",
-          salary: "8k-12k",
-          location: "北京",
-        },
-        {
-          id: 2002,
-          jobId: 1000,
-          jobName: "java开发工程师",
-          salary: "8k-12k",
-          location: "北京",
-        },
-        {
-          id: 2003,
-          jobId: 1000,
-          jobName: "java开发工程师",
-          salary: "8k-12k",
-          location: "北京",
-        },
-       
-      ],
+      starRecord: [],
+
+      rules: {
+        password: [
+          {
+            min: 6,
+            max: 20,
+            message: "长度在 6 到 20 个字符",
+            trigger: "blur",
+          },
+        ],
+
+        phone: [
+          { required: true, message: "请输入手机号码", trigger: "blur" },
+          { min: 11, max: 11, message: "手机号码不正确", trigger: "blur" },
+        ],
+
+        name: [
+          { required: true, message: "请输入名字", trigger: "blur" },
+          { min: 2, max: 11, message: "手机号码不正确", trigger: "blur" },
+        ],
+      },
 
       email: window.sessionStorage.getItem("email"),
     };
   },
 
-  created() {},
+  created() {
+    this.getJobseekerDetail();
+    this.getResumeDetail();
+    this.getPostJob();
+    this.getStarJob();
+  },
 
   methods: {
-    saveInformation() {
-      this.$message.success("修改成功");
+    getJobseekerDetail() {
+      this.$axios
+        .get(
+          "/api/jobSeeker/getJobseekerDetail?jobseekerId=" + this.jobseekerId
+        )
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.information = resp.data.data;
+            this.$message.success("查询个人信息成功！");
+          } else {
+            this.$message.error("查询个人信息失败！");
+          }
+        });
     },
 
-    cancelDelivery(id) {
+    saveJobseekerDetail(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert("submit!");
+          this.$axios
+            .post("/api/jobSeeker/saveJobseekerDetail", this.information)
+            .then((resp) => {
+              if (resp.data.code === 200) {
+                this.$message.success("保存成功");
+              } else {
+                this.$message.error("OH~" + resp.data.message);
+              }
+            });
+        } else {
+          alert("no submit!");
+        }
+      });
+    },
+
+    getResumeDetail() {
+      this.$axios
+        .get("/api/resume/getResumeDetail?jobseekerId=" + this.jobseekerId)
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.resume = resp.data.data;
+            this.$message.success("查询简历信息成功！");
+          } else {
+            this.$message.error("OH~" + resp.data.message);
+          }
+        });
+    },
+
+    saveResumeDetail() {
+      this.$axios
+        .post("/api/resume/saveResumeDetail", this.resume)
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.$message.success("保存成功");
+          } else {
+            this.$message.error("OH~" + resp.data.message);
+          }
+        });
+    },
+
+    getStarJob() {
+      this.$axios
+        .post("/api/job/getStarJob", {
+          jobseekerId: this.jobseekerId,
+          pageNum: this.currentPage2,
+          pageSize: 10,
+        })
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.starRecord = resp.data.data.rows;
+            this.totalPage2 = resp.data.data.totalPage;
+          } else {
+            this.$message.error("查询收藏岗位失败！");
+          }
+        });
+    },
+
+    getPostJob() {
+      this.$axios
+        .post("/api/job/getPostJob", {
+          jobseekerId: this.jobseekerId,
+          pageNum: this.currentPage1,
+          pageSize: 10,
+        })
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.postRecord = resp.data.data.rows;
+            this.totalPage1 = resp.data.data.totalPage;
+          } else {
+            this.$message.error("查询投递岗位失败！");
+          }
+        });
+    },
+
+    cancelPost(id) {
       this.$message.success(`${id}`);
+
+      this.$axios.get("/api/job/cancelPost?postId=" + id).then((resp) => {
+        if (resp.data.code === 200) {
+          this.$message.success("取消投递成功");
+          this.getPostJob();
+        } else {
+          this.$message.error("Oh~" + resp.data.message);
+        }
+      });
     },
 
     cancelStar(id) {
-      // alert(id)
       this.$message.success(`${id}`);
+
+      this.$axios.get("/api/job/cancelStar?starId=" + id).then((resp) => {
+        if (resp.data.code === 200) {
+          this.$message.success("取消收藏成功");
+          this.getStarJob();
+        } else {
+          this.$message.error("Oh~" + resp.data.message);
+        }
+      });
     },
 
     viewJobDetail(jobId) {

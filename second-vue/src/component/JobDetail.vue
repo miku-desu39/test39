@@ -69,7 +69,7 @@ export default {
   data() {
     return {
 
-      jobseekerId: 1,
+      jobseekerId: 2,
 
       jobId: "",
 
