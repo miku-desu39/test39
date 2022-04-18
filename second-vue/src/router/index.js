@@ -16,11 +16,17 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: JobSeeker,
-    redirect: to => {
-      return { path: '/JobSeekerHome'}
-    },
+    component: Home,
+    
   },
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component: JobSeeker,
+  //   redirect: to => {
+  //     return { path: '/JobSeekerHome'}
+  //   },
+  // },
   {
     path:'/JobSeeker',
     name:'JobSeeker',

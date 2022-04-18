@@ -68,7 +68,6 @@ export default {
 
   data() {
     return {
-
       jobseekerId: 2,
 
       jobId: "",
@@ -105,49 +104,51 @@ export default {
     initJob() {
       this.$message.success(this.jobId);
 
-       this.$axios
-        .get("/api/job/viewJobDetail?jobId="+this.jobId)
+      this.$axios
+        .get("/api/job/viewJobDetail?jobId=" + this.jobId)
         .then((resp) => {
           if (resp.data.code === 200) {
             this.job = resp.data.data;
           } else {
-            this.$message.error("错误："+resp.data.message);
+            this.$message.error("错误：" + resp.data.message);
           }
         });
     },
 
     starJob() {
-      this.$message.success(this.jobId);
-
-       this.$axios
-        .post("/api/job/starJob",{
+      this.$axios
+        .post("/api/job/starJob", {
           jobId: this.jobId,
-          jobseekerId: this.jobseekerId
+          jobseekerId: this.jobseekerId,
         })
         .then((resp) => {
           if (resp.data.code === 200) {
             this.$message.success("收藏职位成功");
           } else {
-            this.$message.error("OH~ "+resp.data.message);
+            this.$message.error("OH~ " + resp.data.message);
           }
         });
     },
 
     postJob() {
-      this.$message.success(this.jobId);
-
-       this.$axios
-        .post("/api/job/postJob",{
-          jobId: this.jobId,
-          jobseekerId: this.jobseekerId
-        })
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.$message.success("投递职位成功");
-          } else {
-            this.$message.error("OH~ "+resp.data.message);
-          }
-        });
+      this.$confirm("将投递该职位, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$axios
+          .post("/api/job/postJob", {
+            jobId: this.jobId,
+            jobseekerId: this.jobseekerId,
+          })
+          .then((resp) => {
+            if (resp.data.code === 200) {
+              this.$message.success("投递职位成功");
+            } else {
+              this.$message.error("OH~ " + resp.data.message);
+            }
+          });
+      });
     },
   },
 };

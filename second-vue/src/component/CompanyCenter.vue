@@ -5,7 +5,7 @@
     <el-tabs tab-position="left" style="height: 900px" type="border-card">
       <el-tab-pane>
         <span slot="label" style="font-size: 15px"
-          ><i class="el-icon-user-solid"></i> 公司信息</span
+          ><i class="el-icon-office-building"></i> 公司信息</span
         >
 
         <el-main class="myMain">
@@ -58,7 +58,7 @@
 
       <el-tab-pane>
         <span slot="label" style="font-size: 15px"
-          ><i class="el-icon-s-promotion"></i> 简历查看</span
+          ><i class="el-icon-document-checked"></i> 简历查看</span
         >
 
         <el-main>
@@ -173,14 +173,14 @@
 
       <el-tab-pane>
         <span slot="label" style="font-size: 15px"
-          ><i class="el-icon-star-on"></i> 职位管理</span
+          ><i class="el-icon-data-analysis"></i> 职位管理</span
         >
 
         <el-main>
           <el-table :data="jobList" border style="width: 100%" stripe>
-            <el-table-column prop="jobName" label="职位名"> </el-table-column>
-            <el-table-column prop="jobSalary" label="薪资"> </el-table-column>
-            <el-table-column prop="jobLocation" label="工作城市">
+            <el-table-column prop="name" label="职位名"> </el-table-column>
+            <el-table-column prop="salary" label="薪资"> </el-table-column>
+            <el-table-column prop="location" label="工作城市">
             </el-table-column>
             <el-table-column prop="number" label="招聘人数"> </el-table-column>
             <el-table-column label="操作" width="300">
@@ -188,23 +188,25 @@
                 <div class="myHeader">
                   <el-button
                     type="text"
-                    @click="searchJob"
+                    @click="beforeAddJob()"
                     style="margin-right: 20px"
                     >新增岗位</el-button
                   >
 
                   <el-input v-model="input2" placeholder="搜索职位"></el-input>
-                  <el-button type="primary" @click="searchJob">搜索</el-button>
+                  <el-button type="primary" @click="searchJobList()"
+                    >搜索</el-button
+                  >
                 </div>
               </template>
               <template slot-scope="scope">
                 <el-button
                   type="warning"
-                  @click="updateJob(scope.row.jobId)"
+                  @click="viewJobDetail(scope.row.id)"
                   round
                   >编辑职位</el-button
                 >
-                <el-button type="danger" @click="cancelStar(scope.row.id)" round
+                <el-button type="danger" @click="deleteJob(scope.row.id)" round
                   >删除职位</el-button
                 ></template
               >
@@ -216,7 +218,7 @@
             <div class="pageContainer">
               <el-pagination
                 background
-                @current-change="getStarJob"
+                @current-change="searchJobList()"
                 :current-page.sync="currentPage2"
                 :page-size="10"
                 :page-count.sync="totalPage2"
@@ -284,12 +286,88 @@
               </el-form-item>
 
               <el-form-item>
-                <el-button type="primary" style="width: 150px" round
+                <el-button
+                  type="primary"
+                  style="width: 150px"
+                  round
+                  @click="updateJob()"
                   >保存</el-button
                 >
                 <el-button
                   type="danger"
-                  @click="resetJob('job')"
+                  @click="dialogVisible2 = false"
+                  style="width: 150px"
+                  round
+                  >取消</el-button
+                >
+              </el-form-item>
+            </el-form>
+          </el-main>
+        </el-dialog>
+
+        <el-dialog title="添加职位" :visible.sync="dialogVisible3" width="30%">
+          <el-main class="myMain" style="padding-top: 0px">
+            <el-form
+              ref="newJob"
+              :model="newJob"
+              label-width="100px"
+              style="width: 90%"
+            >
+              <el-form-item label="职位名">
+                <el-input v-model="newJob.name"></el-input>
+              </el-form-item>
+              <el-form-item label="职位薪资">
+                <el-input v-model="newJob.salary"></el-input>
+              </el-form-item>
+              <el-form-item label="工作地点">
+                <el-input v-model="newJob.location"></el-input>
+              </el-form-item>
+
+              <el-form-item label="标签1">
+                <el-input v-model="newJob.tag1"></el-input>
+              </el-form-item>
+              <el-form-item label="标签2">
+                <el-input v-model="newJob.tag2"></el-input>
+              </el-form-item>
+              <el-form-item label="标签3">
+                <el-input v-model="newJob.tag3"></el-input>
+              </el-form-item>
+
+              <el-form-item label="职位要求">
+                <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 3, maxRows: 3 }"
+                  placeholder="请输入内容"
+                  v-model="newJob.requirement"
+                >
+                </el-input>
+              </el-form-item>
+
+              <el-form-item label="职位福利">
+                <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 3, maxRows: 3 }"
+                  placeholder="请输入内容"
+                  v-model="newJob.welfare"
+                >
+                </el-input>
+              </el-form-item>
+
+              <el-form-item label="招聘人数">
+                <el-input v-model="newJob.number"></el-input>
+              </el-form-item>
+
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  @click="addJob()"
+                  style="width: 150px"
+                  round
+                  >保存</el-button
+                >
+                <el-button
+                  type="danger"
+                  @click="dialogVisible3 = false"
                   style="width: 150px"
                   round
                   >取消</el-button
@@ -334,6 +412,7 @@ export default {
 
       dialogVisible1: false,
       dialogVisible2: false,
+      dialogVisible3: false,
 
       input1: "",
       input2: "",
@@ -345,6 +424,19 @@ export default {
       resume: {},
 
       job: {
+        name: "",
+        salary: "",
+        location: "",
+        tag1: "",
+        tag2: "",
+        tag3: "",
+        requirement: "",
+        welfare: "",
+        number: "",
+      },
+
+      newJob: {
+        companyId: "",
         name: "",
         salary: "",
         location: "",
@@ -418,6 +510,7 @@ export default {
   created() {
     this.getCompanyDetail();
     this.searchResume();
+    this.searchJobList();
   },
 
   methods: {
@@ -485,21 +578,94 @@ export default {
         });
     },
 
-    viewResumeDetail(resumeId) {
-      this.dialogVisible1 = true;
+    searchJobList() {
+      this.$axios
+        .post("/api/job/searchJobByKeyWord", {
+          pageNum: this.currentPage2,
+          pageSize: 10,
+          keyword: this.input2,
+          companyId: this.companyId,
+          order: "",
+        })
+        .then((resp) => {
+          if (resp.data.code === 200) {
+            this.jobList = resp.data.data.rows;
+            this.totalPage2 = resp.data.data.totalPage;
+
+            this.$message.success("查询职位列表成功！");
+          } else {
+            this.$message.error("发送失败！");
+          }
+        });
     },
 
-    searchJob() {
-      alert(this.input2);
+    deleteJob(jobId) {
+      this.$confirm("将删除该职位, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$axios.get("/api/job/deleteJob?jobId=" + jobId).then((resp) => {
+          if (resp.data.code === 200) {
+            this.$message.success("删除职位成功");
+            this.searchJobList();
+          } else {
+            this.$message.error("Oh~" + resp.data.message);
+          }
+        });
+      });
+    },
+
+    viewJobDetail(jobId) {
+      this.$axios.get("/api/job/viewJobDetail?jobId=" + jobId).then((resp) => {
+        if (resp.data.code === 200) {
+          this.job = resp.data.data;
+          this.dialogVisible2 = true;
+        } else {
+          this.$message.error("错误：" + resp.data.message);
+        }
+      });
+    },
+
+    beforeAddJob() {
+      (this.newJob.companyId = ""),
+        (this.newJob.name = ""),
+        (this.newJob.salary = ""),
+        (this.newJob.location = ""),
+        (this.newJob.tag1 = ""),
+        (this.newJob.tag2 = ""),
+        (this.newJob.tag3 = ""),
+        (this.newJob.requirement = ""),
+        (this.newJob.welfare = ""),
+        (this.newJob.number = ""),
+        (this.dialogVisible3 = true);
     },
 
     updateJob() {
-      this.dialogVisible2 = true;
+      this.$axios.post("/api/job/updateJob", this.job).then((resp) => {
+        if (resp.data.code === 200) {
+          this.searchJobList();
+          this.dialogVisible2 = false;
+          this.$message.success("修改职位成功！");
+        } else {
+          this.$message.error("OH~" + resp.data.message);
+        }
+      });
     },
 
-    resetJob(formName) {
-      this.$refs[formName].resetFields();
-      this.dialogVisible2 = false;
+    addJob() {
+      this.newJob.companyId = this.companyId;
+
+      this.$axios.post("/api/job/addJob", this.newJob).then((resp) => {
+        if (resp.data.code === 200) {
+          this.dialogVisible3 = false;
+          this.$message.success("添加职位成功！");
+
+          this.searchJobList();
+        } else {
+          this.$message.error("失败！");
+        }
+      });
     },
 
     // submitForm(formName) {

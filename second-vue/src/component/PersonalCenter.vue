@@ -351,21 +351,26 @@ export default {
     },
 
     saveJobseekerDetail(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert("submit!");
-          this.$axios
-            .post("/api/jobSeeker/saveJobseekerDetail", this.information)
-            .then((resp) => {
-              if (resp.data.code === 200) {
-                this.$message.success("保存成功");
-              } else {
-                this.$message.error("OH~" + resp.data.message);
-              }
-            });
-        } else {
-          alert("no submit!");
-        }
+      this.$confirm("将保存个人信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$axios
+              .post("/api/jobSeeker/saveJobseekerDetail", this.information)
+              .then((resp) => {
+                if (resp.data.code === 200) {
+                  this.$message.success("保存成功");
+                } else {
+                  this.$message.error("OH~" + resp.data.message);
+                }
+              });
+          } else {
+            alert("no submit!");
+          }
+        });
       });
     },
 
@@ -383,15 +388,21 @@ export default {
     },
 
     saveResumeDetail() {
-      this.$axios
-        .post("/api/resume/saveResumeDetail", this.resume)
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.$message.success("保存成功");
-          } else {
-            this.$message.error("OH~" + resp.data.message);
-          }
-        });
+      this.$confirm("将保存个人信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$axios
+          .post("/api/resume/saveResumeDetail", this.resume)
+          .then((resp) => {
+            if (resp.data.code === 200) {
+              this.$message.success("保存成功");
+            } else {
+              this.$message.error("OH~" + resp.data.message);
+            }
+          });
+      });
     },
 
     getStarJob() {
@@ -429,28 +440,36 @@ export default {
     },
 
     cancelPost(id) {
-      this.$message.success(`${id}`);
-
-      this.$axios.get("/api/job/cancelPost?postId=" + id).then((resp) => {
-        if (resp.data.code === 200) {
-          this.$message.success("取消投递成功");
-          this.getPostJob();
-        } else {
-          this.$message.error("Oh~" + resp.data.message);
-        }
+      this.$confirm("将取消投递, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$axios.get("/api/job/cancelPost?postId=" + id).then((resp) => {
+          if (resp.data.code === 200) {
+            this.$message.success("取消投递成功");
+            this.getPostJob();
+          } else {
+            this.$message.error("Oh~" + resp.data.message);
+          }
+        });
       });
     },
 
     cancelStar(id) {
-      this.$message.success(`${id}`);
-
-      this.$axios.get("/api/job/cancelStar?starId=" + id).then((resp) => {
-        if (resp.data.code === 200) {
-          this.$message.success("取消收藏成功");
-          this.getStarJob();
-        } else {
-          this.$message.error("Oh~" + resp.data.message);
-        }
+      this.$confirm("将取消收藏, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.$axios.get("/api/job/cancelStar?starId=" + id).then((resp) => {
+          if (resp.data.code === 200) {
+            this.$message.success("取消收藏成功");
+            this.getStarJob();
+          } else {
+            this.$message.error("Oh~" + resp.data.message);
+          }
+        });
       });
     },
 
