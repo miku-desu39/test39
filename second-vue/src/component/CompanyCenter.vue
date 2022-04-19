@@ -402,7 +402,7 @@ export default {
           { min: 2, max: 11, message: "公司名称不正确", trigger: "blur" },
         ],
       },
-      companyId: 1,
+      companyId: window.sessionStorage.getItem("Company"),
 
       currentPage1: 1,
       currentPage2: 1,
@@ -503,7 +503,7 @@ export default {
         },
       ],
 
-      email: window.sessionStorage.getItem("email"),
+      // email: window.sessionStorage.getItem("email"),
     };
   },
 

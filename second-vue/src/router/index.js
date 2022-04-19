@@ -4,7 +4,7 @@ import Home from "../views/Home";
 import JobSeeker from "../views/JobSeeker";
 import Company from "../views/Company";
 import JobList from "../views/JobList";
-import ResumeList from "../views/ResumeList";
+
 import JobSeekerHome from '../component/JobSeekerHome';
 import JobSeekerJobList from '../component/JobSeekerJobList'
 import PersonalCenter from '../component/PersonalCenter'
@@ -19,18 +19,14 @@ const routes = [
     component: Home,
     
   },
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: JobSeeker,
-  //   redirect: to => {
-  //     return { path: '/JobSeekerHome'}
-  //   },
-  // },
+
   {
     path:'/JobSeeker',
     name:'JobSeeker',
     component: JobSeeker,
+    redirect: to => {
+      return { path: '/JobSeekerHome'}
+    },
     children:[
       {
         path: '/JobSeekerHome',
@@ -52,28 +48,24 @@ const routes = [
         name: 'JobDetail',
         component: JobDetail
       },
-      {
-        path: '/CompanyCenter',
-        name: 'CompanyCenter',
-        component: CompanyCenter
-      },
+      
     ]
   },
   {
     path:'/Company',
     name:'/Company',
     component: Company,
+    redirect: to => {
+      return { path: '/CompanyCenter'}
+    },
     children:[
       {
-        path: '/JobList',
-        name: 'JobList',
-        component: JobList
+        path: '/CompanyCenter',
+        name: 'CompanyCenter',
+        component: CompanyCenter
       },
-      {
-        path: '/ResumeList',
-        name: 'ResumeList',
-        component: ResumeList
-      },
+      
+      
     ]
   },
 

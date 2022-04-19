@@ -258,7 +258,7 @@ export default {
 
   data() {
     return {
-      jobseekerId: 2,
+      jobseekerId: window.sessionStorage.getItem("JobSeeker"),
 
       currentPage1: 1,
       currentPage2: 1,
@@ -323,11 +323,12 @@ export default {
         ],
       },
 
-      email: window.sessionStorage.getItem("email"),
+      // email: window.sessionStorage.getItem("email"),
     };
   },
 
   created() {
+    
     this.getJobseekerDetail();
     this.getResumeDetail();
     this.getPostJob();

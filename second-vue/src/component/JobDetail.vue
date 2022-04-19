@@ -47,7 +47,7 @@
         v-model="job.welfare"
       >
       </el-input> -->
-      <div v-html="job.welfare"></div>
+      <p>{{ job.welfare }}</p>
       <!-- <el-input
         type="textarea"
         v-model="job.welfare"
@@ -68,7 +68,7 @@ export default {
 
   data() {
     return {
-      jobseekerId: 2,
+      jobseekerId: window.sessionStorage.getItem("JobSeeker"),
 
       jobId: "",
 
@@ -88,7 +88,7 @@ export default {
         pageviews: "",
       },
 
-      email: window.sessionStorage.getItem("email"),
+      // email: window.sessionStorage.getItem("email"),
     };
   },
 

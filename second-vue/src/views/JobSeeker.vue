@@ -23,7 +23,7 @@
             >搜索职位</el-menu-item
           >
           <el-menu-item index="3" route="/PersonalCenter">个人中心</el-menu-item>
-          <el-menu-item index="4" route="/CompanyCenter">公司页面</el-menu-item>
+          <!-- <el-menu-item index="4" route="/CompanyCenter">公司页面</el-menu-item> -->
           <!-- <el-menu-item index="5">笔试面经</el-menu-item> -->
         </el-menu>
       </div>
@@ -175,10 +175,10 @@ export default {
     //   }
     // },
 
-    // quit(command) {
-    //   this.$router.replace("/");
-    //   this.$message.success("退出成功！");
-    // },
+    quit(command) {
+      this.$router.replace("/");
+      this.$message.success("退出成功！");
+    },
   },
 };
 </script>
