@@ -85,7 +85,9 @@
       >
         <el-form-item label="注册邮箱">
           <el-input v-model="jobseeker.email"></el-input>
-          <el-button type="">发送验证码</el-button>
+          <el-button type="text" @click="sendCode(jobseeker.email)"
+            >发送验证码</el-button
+          >
         </el-form-item>
         <el-form-item label="手机号码" prop="phone">
           <el-input v-model="jobseeker.phone"></el-input>
@@ -150,13 +152,16 @@
         <el-form-item label="求职方向">
           <el-input v-model="jobseeker.careerDirection"></el-input>
         </el-form-item>
-        <el-form-item label="验证码">
+        <el-form-item label="验证码" prop="code">
           <el-input v-model="jobseeker.code"></el-input>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="dialogVisible2" style="width: 150px"
-            >保存</el-button
+          <el-button
+            type="primary"
+            @click="addJobseeker('jobseeker')"
+            style="width: 150px"
+            >注册</el-button
           >
         </el-form-item>
       </el-form>
@@ -177,7 +182,9 @@
       >
         <el-form-item label="注册邮箱">
           <el-input v-model="company.email"></el-input>
-          <el-button type="">发送验证码</el-button>
+          <el-button type="text" @click="sendCode(company.email)"
+            >发送验证码</el-button
+          >
         </el-form-item>
         <el-form-item label="登录密码" prop="password">
           <el-input
@@ -204,16 +211,16 @@
           <el-input v-model="company.tag"></el-input>
         </el-form-item>
 
-        <el-form-item label="验证码">
+        <el-form-item label="验证码" prop="code">
           <el-input v-model="company.code"></el-input>
         </el-form-item>
 
         <el-form-item>
           <el-button
             type="primary"
-            @click="saveCompanyDetail('company')"
+            @click="addCompany('company')"
             style="width: 150px"
-            >保存</el-button
+            >注册</el-button
           >
         </el-form-item>
       </el-form>
@@ -274,6 +281,11 @@ export default {
           { required: true, message: "请输入名字", trigger: "blur" },
           { min: 2, max: 11, message: "请输入正确的名字", trigger: "blur" },
         ],
+
+        code: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
+          { min: 6, max: 6, message: "请输入6位数验证码", trigger: "blur" },
+        ],
       },
 
       rules1: {
@@ -290,9 +302,14 @@ export default {
           { required: true, message: "请输入公司名称", trigger: "blur" },
           { min: 2, max: 11, message: "公司名称不正确", trigger: "blur" },
         ],
+
+        code: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
+          { min: 6, max: 6, message: "请输入6位数验证码", trigger: "blur" },
+        ],
       },
 
-      // 公司信息
+      // 公司注册信息
       company: {
         email: "",
 
@@ -307,6 +324,7 @@ export default {
         code: "",
       },
 
+      //求职者注册信息
       jobseeker: {
         password: "",
 
@@ -347,16 +365,15 @@ export default {
   },
 
   methods: {
-    sendCode() {
-      this.$axios
-        .get("/Login/sendCode?email=" + this.registerForm.newEmail)
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.$message.success("发送成功！");
-          } else {
-            this.$message.error("发送失败！");
-          }
-        });
+    sendCode(email) {
+      alert(email);
+      this.$axios.get("/api/login/sendCode?email=" + email).then((resp) => {
+        if (resp.data.code === 200) {
+          this.$message.success("发送成功！");
+        } else {
+          this.$message.error("发送失败！");
+        }
+      });
     },
 
     login() {
@@ -381,21 +398,50 @@ export default {
         });
     },
 
-    addUser() {
-      this.$axios
-        .post("/Login" + "/addUser", this.registerForm)
-        .then((resp) => {
-          if (resp.data.code === 200) {
-            this.$message.success("注册成功");
-          } else {
-            this.$message.error("注册失败");
-          }
+    addJobseeker(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios
+            .post("/api/login/jobseekerRegister", this.jobseeker)
+            .then((resp) => {
+              if (resp.data.code === 200) {
+                this.$message.success("注册成功");
+              } else {
+                this.$message.error("注册失败");
+              }
 
-          this.dialogVisible = false;
-        })
-        .catch((error) => {
-          this.$message.error("注册失败");
-        });
+              this.dialogVisible2 = false;
+            })
+            .catch((error) => {
+              this.$message.error("注册失败");
+            });
+        } else {
+          alert("请填完整的信息!");
+        }
+      });
+    },
+
+    addCompany(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios
+            .post("/api/login/companyRegister", this.company)
+            .then((resp) => {
+              if (resp.data.code === 200) {
+                this.$message.success("注册成功");
+              } else {
+                this.$message.error("注册失败");
+              }
+
+              this.dialogVisible1 = false;
+            })
+            .catch((error) => {
+              this.$message.error("注册失败");
+            });
+        } else {
+          alert("请填完整的信息!");
+        }
+      });
     },
   },
 };

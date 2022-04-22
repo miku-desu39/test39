@@ -1,13 +1,14 @@
 <template>
-  <el-container style="padding-left: 400px; padding-right: 400px; background-color:rgb(244,245,245)">
+  <el-container
+    style="
+      padding-left: 400px;
+      padding-right: 400px;
+      background-color: rgb(244, 245, 245);
+    "
+  >
     <el-header class="myHeader">
       <div class="left-bar">
-        <img
-          src="../img/easy_logo.png"
-          alt=""
-          width="128px"
-          height="60px"
-        />
+        <img src="../img/easy_logo.png" alt="" width="128px" height="60px" />
         <el-menu
           default-active="1"
           class="el-menu-demo"
@@ -16,13 +17,13 @@
           text-color="black"
           active-text-color="#39c5bb"
         >
-          <el-menu-item index="1" route="/JobSeekerHome"
-            >职位推荐</el-menu-item
-          >
+          <el-menu-item index="1" route="/JobSeekerHome">职位推荐</el-menu-item>
           <el-menu-item index="2" route="/JobSeekerJobList"
             >搜索职位</el-menu-item
           >
-          <el-menu-item index="3" route="/PersonalCenter">个人中心</el-menu-item>
+          <el-menu-item index="3" route="/PersonalCenter"
+            >个人中心</el-menu-item
+          >
           <!-- <el-menu-item index="4" route="/CompanyCenter">公司页面</el-menu-item> -->
           <!-- <el-menu-item index="5">笔试面经</el-menu-item> -->
         </el-menu>
@@ -43,35 +44,23 @@
 
     <router-view></router-view>
 
-
     <div class="myHeader2">
       <img width="200px" height="200px" src="../img/logo_transparent.png" />
-
     </div>
-    
   </el-container>
 </template>
 
 <script>
-
 export default {
   name: "JobSeeker",
 
   data() {
     return {
-     
-
-    
-
       email: window.sessionStorage.getItem("email"),
-
-    
     };
   },
 
-  created() {
-    
-  },
+  created() {},
 
   methods: {
     // handleSelect() {
@@ -175,7 +164,9 @@ export default {
     //   }
     // },
 
+
     quit(command) {
+      document.cookie = "loginUUID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       this.$router.replace("/");
       this.$message.success("退出成功！");
     },

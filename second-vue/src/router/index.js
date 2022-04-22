@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Home from "../views/Home";
 import JobSeeker from "../views/JobSeeker";
 import Company from "../views/Company";
-import JobList from "../views/JobList";
 
 import JobSeekerHome from '../component/JobSeekerHome';
 import JobSeekerJobList from '../component/JobSeekerJobList'

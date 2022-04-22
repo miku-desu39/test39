@@ -55,10 +55,7 @@ export default {
     return {
      
 
-    
-
-      email: window.sessionStorage.getItem("email"),
-
+  
     
     };
   },
@@ -68,108 +65,9 @@ export default {
   },
 
   methods: {
-    // handleSelect() {
-    //   this.$router.push("/JobSeekerHome");
-    // },
-
-    // searchJob(item) {
-    //   this.$message.success(item);
-    // },
-
-    // handleClick(tab, event) {
-    //   this.$message.success(tab.name);
-
-    //   if (tab.name == "技术") {
-    //   }
-    // },
-
-    // updateResume() {
-    //   this.$axios
-    //     .post("/Resume/updateResume?email=" + this.email, this.resumeForm)
-    //     .then((resp) => {
-    //       if (resp.data.code === 200) {
-    //         this.$message.success("修改成功");
-    //       } else {
-    //         this.$message.error("修改失败");
-    //       }
-    //       this.dialogVisible = false;
-    //     });
-    // },
-
-    // deliverResume(item) {
-    //   this.$confirm("确认投递该岗位", "提示", {
-    //     confirmButtonText: "确定",
-    //     cancelButtonText: "取消",
-    //     type: "info",
-    //   }).then(() => {
-    //     this.$axios
-    //       .get("/Resume/sendResume?email=" + this.email + "&jobId=" + item.id)
-    //       .then((resp) => {
-    //         if (resp.data.code === 200) {
-    //           this.$message.success("投递成功");
-    //         } else {
-    //           this.$message.error("投递失败");
-    //         }
-    //       });
-    //   });
-    // },
-
-    // resetPage() {
-    //   this.input = "";
-    //   this.currentPage1 = 1;
-    //   this.pageDataType = "normal";
-    //   this.getJobList();
-    //   this.$message.success("已重置");
-    // },
-
-    // getTargetJobList() {
-    //   if (this.pageDataType === "normal") {
-    //     this.currentPage1 = 1;
-    //     this.pageDataType = "special";
-    //   }
-
-    //   this.$axios
-    //     .post("/Job/listJobByFuzzyQuery?keyWord=" + this.input, {
-    //       pageNum: this.currentPage1,
-    //       pageSize: 5,
-    //     })
-    //     .then((resp) => {
-    //       if (resp.data.code === 200) {
-    //         this.pageData = resp.data.data.pageData;
-    //         this.totalPage = resp.data.data.totalPageNum;
-
-    //         this.$message.success("查询成功！");
-    //       } else {
-    //         this.$message.error("发送失败！");
-    //       }
-    //     });
-    // },
-
-    // getJobList() {
-    //   this.$axios
-    //     .post("/Job/listJobByPage", {
-    //       pageNum: this.currentPage1,
-    //       pageSize: 5,
-    //     })
-    //     .then((resp) => {
-    //       if (resp.data.code === 200) {
-    //         this.pageData = resp.data.data.pageData;
-    //         this.totalPage = resp.data.data.totalPageNum;
-    //       } else {
-    //         this.$message.error("发送失败！");
-    //       }
-    //     });
-    // },
-
-    // handleCurrentChange() {
-    //   if (this.pageDataType === "normal") {
-    //     this.getJobList();
-    //   } else {
-    //     this.getTargetJobList();
-    //   }
-    // },
 
     quit(command) {
+      document.cookie = "loginUUID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       this.$router.replace("/");
       this.$message.success("退出成功！");
     },
