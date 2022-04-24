@@ -44,7 +44,7 @@
               <el-input v-model="company.tag"></el-input>
             </el-form-item>
 
-            <el-form-item>
+            <el-form-item label="公司图标">
               <el-upload
                 class="upload-demo"
                 drag

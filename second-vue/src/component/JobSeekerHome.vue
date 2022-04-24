@@ -399,7 +399,7 @@
             <img
               style="width: 40px; height: 40px"
               class="img-rounded"
-              :src="require('./../img/img'+job.companyId+'.jpg')"
+              :src="imgUrl+'img'+job.companyId+'.jpg'"
             />
             <div class="company-right">
               <div class="company-name">
@@ -436,6 +436,10 @@ export default {
 
   data() {
     return {
+
+      imgUrl: "http://175.178.110.91/images/",
+
+
       jobInput: "",
 
       imgList: [
